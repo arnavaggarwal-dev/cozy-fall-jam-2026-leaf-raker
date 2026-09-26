@@ -1,0 +1,886 @@
+[gd_scene format=3 uid="uid://86o71b0oxe4i"]
+
+[ext_resource type="Script" uid="uid://df6efyjpgh2d4" path="res://scenes/ui/hud.gd" id="1_hud"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/acorn_icon.png" id="4_acorn"]
+[ext_resource type="Script" uid="uid://dbsas3500k1qv" path="res://scenes/ui/slot_view.gd" id="5_slot"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/frame_small.png" id="6_frame"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/frame_card.png" id="7_card"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/corner_leaf.png" id="8_leaf"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/compass_leaf.png" id="9_compass"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/twig.png" id="10_twig"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/vine_fill.png" id="11_vine"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/crosshair.png" id="12_cross"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/toast_banner.png" id="13_banner"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel"]
+content_margin_left = 30.0
+content_margin_top = 26.0
+content_margin_right = 30.0
+content_margin_bottom = 26.0
+texture = ExtResource("6_frame")
+texture_margin_left = 36.0
+texture_margin_top = 36.0
+texture_margin_right = 36.0
+texture_margin_bottom = 36.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="Theme" id="Theme_hud"]
+Label/colors/font_color = Color(0.96, 0.9, 0.8, 1)
+Label/colors/font_outline_color = Color(0.08, 0.04, 0.02, 0.9)
+Label/constants/outline_size = 5
+Label/font_sizes/font_size = 16
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_panel")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tooltip"]
+content_margin_left = 18.0
+content_margin_top = 14.0
+content_margin_right = 18.0
+content_margin_bottom = 14.0
+texture = ExtResource("7_card")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_twig"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+texture = ExtResource("10_twig")
+texture_margin_left = 12.0
+texture_margin_top = 0.0
+texture_margin_right = 12.0
+texture_margin_bottom = 0.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vine"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+texture = ExtResource("11_vine")
+texture_margin_left = 12.0
+texture_margin_top = 0.0
+texture_margin_right = 12.0
+texture_margin_bottom = 0.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_banner"]
+content_margin_left = 28.0
+content_margin_top = 6.0
+content_margin_right = 28.0
+content_margin_bottom = 10.0
+texture = ExtResource("13_banner")
+texture_margin_left = 16.0
+texture_margin_top = 8.0
+texture_margin_right = 16.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="Hud" type="CanvasLayer" unique_id=1856437280]
+process_mode = 3
+layer = 10
+script = ExtResource("1_hud")
+
+[node name="Root" type="Control" parent="." unique_id=1680282966]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = SubResource("Theme_hud")
+
+[node name="Stats" type="PanelContainer" parent="Root" unique_id=995864208]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 191.0
+offset_bottom = 97.0
+mouse_filter = 2
+
+[node name="Box" type="VBoxContainer" parent="Root/Stats" unique_id=1951811303]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Root/Stats/Box" unique_id=653257038]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.35, 1)
+theme_override_font_sizes/font_size = 32
+text = "Leaf Raker"
+
+[node name="Text" type="Label" parent="Root/Stats/Box" unique_id=1362415428]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+
+[node name="Effects" type="RichTextLabel" parent="Root/Stats/Box" unique_id=1965500770]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.75, 0.95, 0.6, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.04, 0.02, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="LostThings" type="PanelContainer" parent="Root" unique_id=667338186]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -163.0
+offset_top = 18.0
+offset_right = -18.0
+offset_bottom = 67.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="List" type="VBoxContainer" parent="Root/LostThings" unique_id=620690911]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="Title" type="Label" parent="Root/LostThings/List" unique_id=1817027690]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.35, 1)
+theme_override_font_sizes/font_size = 30
+text = "Lost things"
+
+[node name="Rows" type="RichTextLabel" parent="Root/LostThings/List"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.93, 0.87, 0.78, 0.6)
+theme_override_colors/font_outline_color = Color(0.08, 0.04, 0.02, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_constants/line_separation = 1
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "Jack-o'-Lantern
+Old Lantern
+[color=#ffc759]Golden Chalice  (found)[/color]
+Treasure Chest"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Crosshair" type="TextureRect" parent="Root" unique_id=778137783]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("12_cross")
+
+[node name="Prompt" type="RichTextLabel" parent="Root" unique_id=59938915]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = 36.0
+offset_right = 400.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0.08, 0.04, 0.02, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="Toast" type="Label" parent="Root" unique_id=1891750899]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 120.0
+offset_bottom = 164.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.35, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxTexture_banner")
+horizontal_alignment = 1
+
+[node name="Compass" type="Control" parent="Root" unique_id=1187627308]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -170.0
+offset_top = 24.0
+offset_right = 170.0
+offset_bottom = 110.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="Arrow" type="Sprite2D" parent="Root/Compass" unique_id=2125257580]
+position = Vector2(170, 30)
+texture = ExtResource("9_compass")
+
+[node name="Distance" type="Label" parent="Root/Compass" unique_id=533286265]
+layout_mode = 0
+offset_top = 58.0
+offset_right = 340.0
+offset_bottom = 84.0
+horizontal_alignment = 1
+
+[node name="Charge" type="ProgressBar" parent="Root" unique_id=1223402169]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -156.0
+offset_right = 120.0
+offset_bottom = -140.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxTexture_twig")
+theme_override_styles/fill = SubResource("StyleBoxTexture_vine")
+max_value = 1.0
+show_percentage = false
+
+[node name="ItemName" type="Label" parent="Root" unique_id=1566979932]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -132.0
+offset_right = 300.0
+offset_bottom = -104.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+
+[node name="Hotbar" type="Control" parent="Root" unique_id=1253064230]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -350.0
+offset_top = -94.0
+offset_right = 350.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("5_slot")
+indices = PackedInt32Array(36, 0, 1, 2, 3, 4, 5, 6, 7, 8)
+columns = 10
+lead_gap = 20.0
+show_selection = true
+
+[node name="Acorns" type="PanelContainer" parent="Root" unique_id=1633105523]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 368.0
+offset_top = -94.0
+offset_right = 530.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="Box" type="HBoxContainer" parent="Root/Acorns" unique_id=53093514]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Icon" type="TextureRect" parent="Root/Acorns/Box" unique_id=39871499]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_acorn")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="Count" type="Label" parent="Root/Acorns/Box" unique_id=716545122]
+layout_mode = 2
+theme_override_font_sizes/font_size = 44
+text = "x 0"
+vertical_alignment = 1
+
+[node name="PickupFeed" type="RichTextLabel" parent="Root" unique_id=1121246387]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 368.0
+offset_top = -270.0
+offset_right = 700.0
+offset_bottom = -104.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_colors/default_color = Color(1, 0.78, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.04, 0.02, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "+3  Acorns
++1  Cookie"
+scroll_active = false
+autowrap_mode = 0
+vertical_alignment = 2
+
+[node name="Controls" type="RichTextLabel" parent="Root" unique_id=1841350447]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = -186.0
+offset_right = 620.0
+offset_bottom = -18.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0.08, 0.04, 0.02, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_constants/line_separation = 6
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "WASD walk   Arrows look   Shift dash   Space jump"
+scroll_active = false
+vertical_alignment = 2
+
+[node name="StartCard" type="CenterContainer" parent="Root" unique_id=1135355053]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="Root/StartCard" unique_id=2058817686]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Box" type="VBoxContainer" parent="Root/StartCard/Panel" unique_id=279005989]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Root/StartCard/Panel/Box" unique_id=943612511]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.35, 1)
+theme_override_font_sizes/font_size = 46
+text = "Click to start raking"
+horizontal_alignment = 1
+
+[node name="Body" type="Label" parent="Root/StartCard/Panel/Box" unique_id=869274939]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "15 lost things are buried under the leaves somewhere in this forest.
+Look for warm light shining up through the leaves, then drag the rake to dig them out.
+Every one of them does something: check its tooltip in the inventory (E).
+Squirrels bury acorns all over. Rake where little sprouts poke through the leaves,
+and throw one to blow the leaves off a stubborn spot."
+horizontal_alignment = 1
+
+[node name="InventoryScreen" type="Control" parent="Root" unique_id=1787565121]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="Root/InventoryScreen" unique_id=1939339034]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.45)
+
+[node name="Center" type="CenterContainer" parent="Root/InventoryScreen" unique_id=612373874]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="Root/InventoryScreen/Center" unique_id=1394748639]
+layout_mode = 2
+
+[node name="Box" type="VBoxContainer" parent="Root/InventoryScreen/Center/Panel" unique_id=127096073]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=1428774173]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.35, 1)
+theme_override_font_sizes/font_size = 24
+text = "Inventory"
+
+[node name="ChestLabel" type="Label" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=1880036831]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.35, 1)
+text = "Treasure Chest"
+
+[node name="ChestGrid" type="Control" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=610025676]
+layout_mode = 2
+script = ExtResource("5_slot")
+indices = PackedInt32Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26)
+
+[node name="Equipment" type="HBoxContainer" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=860580603]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="OffHand" type="Control" parent="Root/InventoryScreen/Center/Panel/Box/Equipment" unique_id=1587240771]
+layout_mode = 2
+script = ExtResource("5_slot")
+indices = PackedInt32Array(36)
+columns = 1
+
+[node name="Hint" type="Label" parent="Root/InventoryScreen/Center/Panel/Box/Equipment" unique_id=1432236322]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.93, 0.87, 0.78, 0.6)
+theme_override_font_sizes/font_size = 14
+text = "Anything in your off hand floats beside you. A lantern lights the way."
+vertical_alignment = 1
+
+[node name="MainGrid" type="Control" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=781104386]
+layout_mode = 2
+script = ExtResource("5_slot")
+indices = PackedInt32Array(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35)
+
+[node name="Gap" type="Control" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=884653973]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HotbarGrid" type="Control" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=837398120]
+layout_mode = 2
+script = ExtResource("5_slot")
+indices = PackedInt32Array(0, 1, 2, 3, 4, 5, 6, 7, 8)
+
+[node name="Help" type="Label" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=1223792275]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.93, 0.87, 0.78, 0.6)
+theme_override_font_sizes/font_size = 13
+text = "Click: pick up / put down    Right-click: split / put one    Shift-click: move    Click outside: drop"
+
+[node name="Tooltip" type="PanelContainer" parent="Root/InventoryScreen" unique_id=500356178]
+visible = false
+layout_mode = 0
+offset_right = 344.0
+offset_bottom = 60.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_tooltip")
+
+[node name="Box" type="VBoxContainer" parent="Root/InventoryScreen/Tooltip" unique_id=497579018]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Name" type="Label" parent="Root/InventoryScreen/Tooltip/Box" unique_id=1531626597]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.35, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="Description" type="Label" parent="Root/InventoryScreen/Tooltip/Box" unique_id=1696248111]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 3
+
+[node name="CursorLayer" type="Control" parent="Root/InventoryScreen" unique_id=1440108416]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Corners" type="Control" parent="Root/Stats"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TopLeft" type="TextureRect" parent="Root/Stats/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -30.0
+offset_top = -26.0
+offset_right = -4.0
+offset_bottom = 0.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+
+[node name="TopRight" type="TextureRect" parent="Root/Stats/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 4.0
+offset_top = -26.0
+offset_right = 30.0
+offset_bottom = 0.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+flip_h = true
+
+[node name="BottomLeft" type="TextureRect" parent="Root/Stats/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = 0.0
+offset_right = -4.0
+offset_bottom = 26.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+flip_v = true
+
+[node name="BottomRight" type="TextureRect" parent="Root/Stats/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 0.0
+offset_right = 30.0
+offset_bottom = 26.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+flip_h = true
+flip_v = true
+
+[node name="Corners" type="Control" parent="Root/LostThings"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TopLeft" type="TextureRect" parent="Root/LostThings/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -30.0
+offset_top = -26.0
+offset_right = -4.0
+offset_bottom = 0.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+
+[node name="TopRight" type="TextureRect" parent="Root/LostThings/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 4.0
+offset_top = -26.0
+offset_right = 30.0
+offset_bottom = 0.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+flip_h = true
+
+[node name="BottomLeft" type="TextureRect" parent="Root/LostThings/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = 0.0
+offset_right = -4.0
+offset_bottom = 26.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+flip_v = true
+
+[node name="BottomRight" type="TextureRect" parent="Root/LostThings/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 0.0
+offset_right = 30.0
+offset_bottom = 26.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+flip_h = true
+flip_v = true
+
+[node name="Corners" type="Control" parent="Root/Acorns"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TopLeft" type="TextureRect" parent="Root/Acorns/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -30.0
+offset_top = -26.0
+offset_right = -4.0
+offset_bottom = 0.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+
+[node name="TopRight" type="TextureRect" parent="Root/Acorns/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 4.0
+offset_top = -26.0
+offset_right = 30.0
+offset_bottom = 0.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+flip_h = true
+
+[node name="BottomLeft" type="TextureRect" parent="Root/Acorns/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = 0.0
+offset_right = -4.0
+offset_bottom = 26.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+flip_v = true
+
+[node name="BottomRight" type="TextureRect" parent="Root/Acorns/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 0.0
+offset_right = 30.0
+offset_bottom = 26.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+flip_h = true
+flip_v = true
+
+[node name="Corners" type="Control" parent="Root/StartCard/Panel"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TopLeft" type="TextureRect" parent="Root/StartCard/Panel/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -30.0
+offset_top = -26.0
+offset_right = -4.0
+offset_bottom = 0.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+
+[node name="TopRight" type="TextureRect" parent="Root/StartCard/Panel/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 4.0
+offset_top = -26.0
+offset_right = 30.0
+offset_bottom = 0.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+flip_h = true
+
+[node name="BottomLeft" type="TextureRect" parent="Root/StartCard/Panel/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = 0.0
+offset_right = -4.0
+offset_bottom = 26.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+flip_v = true
+
+[node name="BottomRight" type="TextureRect" parent="Root/StartCard/Panel/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 0.0
+offset_right = 30.0
+offset_bottom = 26.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+flip_h = true
+flip_v = true
+
+[node name="Corners" type="Control" parent="Root/InventoryScreen/Center/Panel"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TopLeft" type="TextureRect" parent="Root/InventoryScreen/Center/Panel/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -30.0
+offset_top = -26.0
+offset_right = -4.0
+offset_bottom = 0.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+
+[node name="TopRight" type="TextureRect" parent="Root/InventoryScreen/Center/Panel/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 4.0
+offset_top = -26.0
+offset_right = 30.0
+offset_bottom = 0.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+flip_h = true
+
+[node name="BottomLeft" type="TextureRect" parent="Root/InventoryScreen/Center/Panel/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = 0.0
+offset_right = -4.0
+offset_bottom = 26.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+flip_v = true
+
+[node name="BottomRight" type="TextureRect" parent="Root/InventoryScreen/Center/Panel/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 0.0
+offset_right = 30.0
+offset_bottom = 26.0
+mouse_filter = 2
+texture = ExtResource("8_leaf")
+expand_mode = 1
+flip_h = true
+flip_v = true
+
+[connection signal="gui_input" from="Root/InventoryScreen/Dim" to="." method="_on_dim_input"]
+[connection signal="draw" from="Root/InventoryScreen/CursorLayer" to="." method="_draw_cursor"]

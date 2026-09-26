@@ -1,0 +1,14 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/item_data.gd" id="1_item"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"missing_sock"
+display_name = "Missing Sock"
+description = "hold click to fling acorns with it (yes really)"
+model = "res://assets/models/items/holiday/sock-red.glb"
+world_size = 0.26
+max_stack = 1
+action = &"sling"
+lost_index = 8

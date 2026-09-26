@@ -1,0 +1,46 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://wdcinl53acto"]
+
+[ext_resource type="Texture2D" uid="uid://dfc80p00kk3em" path="res://assets/textures/ui/fall_leaf.png" id="1_sheet"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_default0"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_default1"]
+atlas = ExtResource("1_sheet")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_default2"]
+atlas = ExtResource("1_sheet")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_default3"]
+atlas = ExtResource("1_sheet")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_default4"]
+atlas = ExtResource("1_sheet")
+region = Rect2(64, 0, 16, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_default0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_default1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_default2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_default3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_default4")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]

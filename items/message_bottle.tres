@@ -1,0 +1,14 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/item_data.gd" id="1_item"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"message_bottle"
+display_name = "Message in a Bottle"
+description = "the note only knows one secret"
+model = "res://assets/models/items/survival/bottle.glb"
+world_size = 0.26
+max_stack = 1
+action = &"read_note"
+lost_index = 5

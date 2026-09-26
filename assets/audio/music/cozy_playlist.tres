@@ -1,0 +1,10 @@
+[gd_resource type="AudioStreamPlaylist" format=3]
+
+[ext_resource type="AudioStream" path="res://assets/audio/music/harvest_season.ogg" id="1_harvest"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/another_august.ogg" id="2_august"]
+
+[resource]
+fade_time = 4.0
+stream_count = 2
+stream_0 = ExtResource("1_harvest")
+stream_1 = ExtResource("2_august")

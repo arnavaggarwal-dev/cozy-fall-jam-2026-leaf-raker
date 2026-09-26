@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/flourish.gd" id="1_script"]
+[ext_resource type="SpriteFrames" path="res://scenes/ui/leaf_frames.tres" id="2_leaf"]
+[ext_resource type="AudioStream" path="res://assets/audio/foliage/rustle_01.ogg" id="3_rustle_01"]
+[ext_resource type="AudioStream" path="res://assets/audio/foliage/rustle_02.ogg" id="3_rustle_02"]
+[ext_resource type="AudioStream" path="res://assets/audio/foliage/rustle_05.ogg" id="3_rustle_05"]
+[ext_resource type="AudioStream" path="res://assets/audio/steps/footstep_grass_000.ogg" id="4_crunch_0"]
+[ext_resource type="AudioStream" path="res://assets/audio/steps/footstep_grass_001.ogg" id="4_crunch_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/steps/footstep_grass_002.ogg" id="4_crunch_2"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_hover"]
+random_pitch = 1.15
+streams_count = 3
+stream_0/stream = ExtResource("3_rustle_01")
+stream_1/stream = ExtResource("3_rustle_02")
+stream_2/stream = ExtResource("3_rustle_05")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_click"]
+random_pitch = 1.1
+streams_count = 3
+stream_0/stream = ExtResource("4_crunch_0")
+stream_1/stream = ExtResource("4_crunch_1")
+stream_2/stream = ExtResource("4_crunch_2")
+
+[node name="Flourish" type="Control"]
+process_mode = 3
+top_level = true
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="Left" type="AnimatedSprite2D" parent="."]
+visible = false
+texture_filter = 1
+scale = Vector2(2.5, 2.5)
+sprite_frames = ExtResource("2_leaf")
+autoplay = "default"
+
+[node name="Right" type="AnimatedSprite2D" parent="."]
+visible = false
+texture_filter = 1
+scale = Vector2(2.5, 2.5)
+sprite_frames = ExtResource("2_leaf")
+autoplay = "default"
+flip_h = true
+
+[node name="Hover" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_hover")
+volume_db = -17.0
+pitch_scale = 1.25
+bus = &"SFX"
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_click")
+volume_db = -7.0
+pitch_scale = 1.15
+bus = &"SFX"

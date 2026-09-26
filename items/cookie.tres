@@ -1,0 +1,14 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/item_data.gd" id="1_item"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"cookie"
+display_name = "Cookie"
+description = "squirrels go nuts for the crumbs"
+model = "res://assets/models/items/food/cookie.glb"
+world_size = 0.18
+max_stack = 16
+action = &"crumbs"
+lost_index = 11

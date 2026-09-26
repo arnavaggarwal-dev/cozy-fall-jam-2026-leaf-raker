@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/items/placed_item.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/models/items/nature/mushroom_red.glb" id="2_model"]
+[ext_resource type="AudioStream" path="res://assets/audio/pluck_001.ogg" id="3_boing"]
+
+[node name="Toadstool" type="Node3D"]
+script = ExtResource("1_script")
+item_id = &"toadstool"
+aim_height = 1.0
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="Mushroom" parent="Model" instance=ExtResource("2_model")]
+transform = Transform3D(8.875739, 0, 0, 0, 8.875739, 0, 0, 0, 8.875739, -0.008097149, 0.44378695, -0.044656992)
+
+[node name="Boing" type="AudioStreamPlayer3D" parent="."]
+bus = &"SFX"
+stream = ExtResource("3_boing")
+pitch_scale = 0.55
+unit_size = 4.0

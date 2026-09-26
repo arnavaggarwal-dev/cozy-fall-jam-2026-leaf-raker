@@ -1,0 +1,16 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/item_data.gd" id="1_item"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"sprinkle_donut"
+display_name = "Sprinkle Donut"
+description = "60% faster legs for 30 seconds"
+model = "res://assets/models/items/food/donut-sprinkles.glb"
+world_size = 0.2
+max_stack = 16
+action = &"eat"
+effect = &"sugar"
+effect_seconds = 30.0
+lost_index = 12

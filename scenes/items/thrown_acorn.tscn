@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/items/nature/acorn.glb" id="1_acorn"]
+
+[node name="ThrownAcorn" type="Node3D"]
+
+[node name="Model" parent="." instance=ExtResource("1_acorn")]
+transform = Transform3D(3.5931035e-07, 0, 0, 0, 3.5931035e-07, 0, 0, 0, 3.5931035e-07, -0.206372, -0.0623759, 0.452051)

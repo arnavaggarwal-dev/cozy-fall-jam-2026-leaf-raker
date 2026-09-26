@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/button_thief.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/ui/squirrel_2d.tscn" id="2_squirrel"]
+[ext_resource type="SpriteFrames" path="res://scenes/ui/emote_frames.tres" id="3_emotes"]
+
+[node name="ButtonThief" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_script")
+
+[node name="Squirrel" parent="." instance=ExtResource("2_squirrel")]
+visible = false
+scale = Vector2(4.5, 4.5)
+
+[node name="Emote" type="AnimatedSprite2D" parent="Squirrel"]
+visible = false
+texture_filter = 1
+position = Vector2(4, -17)
+scale = Vector2(0.55, 0.55)
+sprite_frames = ExtResource("3_emotes")
+animation = &"shock"

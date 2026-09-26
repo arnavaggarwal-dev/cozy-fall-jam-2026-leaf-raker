@@ -1,0 +1,588 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/win_screen.gd" id="1_script"]
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/fall_leaf.png" id="3_leaf"]
+[ext_resource type="AudioStream" path="res://assets/audio/confirmation_002.ogg" id="4_chime"]
+[ext_resource type="PackedScene" path="res://scenes/ui/flourish.tscn" id="6_flourish"]
+[ext_resource type="Shader" path="res://shaders/win_backdrop.gdshader" id="7_backdrop"]
+[ext_resource type="Shader" path="res://shaders/win_shine.gdshader" id="8_shine"]
+[ext_resource type="PackedScene" path="res://assets/models/creatures/el_primo/el_primo.fbx" id="9_primo"]
+[ext_resource type="AudioStream" path="res://assets/audio/pluck_001.ogg" id="10_tick"]
+[ext_resource type="AudioStream" path="res://assets/audio/drop_002.ogg" id="11_stamp"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/gold_leaf.png" id="13_star"]
+[ext_resource type="Script" path="res://scenes/ui/orbit_ring.gd" id="15_orbit"]
+[ext_resource type="AudioStream" path="res://assets/audio/win_fanfare.ogg" id="14_fanfare"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/frame.png" id="20_frame"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/corner_leaf.png" id="21_leaf"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/title_vine.png" id="22_vine"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_leaf"]
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="Gradient" id="Gradient_tints"]
+colors = PackedColorArray(1, 0.55, 0.5, 1, 1, 1, 0.6, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_backdrop"]
+shader = ExtResource("7_backdrop")
+shader_parameter/grow = 1.0
+
+[sub_resource type="Gradient" id="Gradient_fade"]
+offsets = PackedFloat32Array(0, 0.7, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.8, 1, 1, 1, 0)
+
+[sub_resource type="Gradient" id="Gradient_twinkle"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 0.95, 0.7, 0, 1, 0.95, 0.7, 1, 1, 0.95, 0.7, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_shine"]
+shader = ExtResource("8_shine")
+
+[sub_resource type="Environment" id="Environment_stage"]
+background_mode = 1
+background_color = Color(0, 0, 0, 0)
+ambient_light_source = 2
+ambient_light_color = Color(1, 0.85, 0.7, 1)
+ambient_light_energy = 0.55
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_podium"]
+albedo_color = Color(0.55, 0.28, 0.12, 1)
+roughness = 0.6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_podium"]
+material = SubResource("StandardMaterial3D_podium")
+top_radius = 0.95
+bottom_radius = 1.05
+height = 0.3
+radial_segments = 16
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ring"]
+shading_mode = 0
+albedo_color = Color(1, 0.8, 0.3, 1)
+emission_enabled = true
+emission = Color(1, 0.75, 0.25, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="TorusMesh" id="TorusMesh_ring"]
+material = SubResource("StandardMaterial3D_ring")
+inner_radius = 0.97
+outer_radius = 1.07
+rings = 32
+ring_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_burst"]
+shading_mode = 0
+albedo_color = Color(1, 0.85, 0.35, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_burst"]
+material = SubResource("StandardMaterial3D_burst")
+size = Vector3(0.06, 0.06, 0.06)
+
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_sfx"]
+polyphony = 16
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_best"]
+shader = ExtResource("8_shine")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_frame"]
+content_margin_left = 50.0
+content_margin_top = 44.0
+content_margin_right = 50.0
+content_margin_bottom = 44.0
+texture = ExtResource("20_frame")
+texture_margin_left = 54.0
+texture_margin_top = 54.0
+texture_margin_right = 54.0
+texture_margin_bottom = 54.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="WinScreen" type="CanvasLayer"]
+process_mode = 3
+layer = 45
+script = ExtResource("1_script")
+fanfare_sound = ExtResource("14_fanfare")
+chime_sound = ExtResource("4_chime")
+tick_sound = ExtResource("10_tick")
+stamp_sound = ExtResource("11_stamp")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+
+[node name="Rays" type="ColorRect" parent="Root"]
+z_index = -2
+material = SubResource("ShaderMaterial_backdrop")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Twinkle" type="CPUParticles2D" parent="Root"]
+process_mode = 3
+z_index = -1
+position = Vector2(800, 450)
+amount = 70
+lifetime = 1.4
+emission_shape = 3
+emission_rect_extents = Vector2(800, 450)
+gravity = Vector2(0, 0)
+scale_amount_min = 3.0
+scale_amount_max = 6.0
+color_ramp = SubResource("Gradient_twinkle")
+
+[node name="Stage" type="SubViewportContainer" parent="Root"]
+layout_mode = 1
+anchor_left = 0.02
+anchor_top = 0.18
+anchor_right = 0.54
+anchor_bottom = 1.0
+mouse_filter = 2
+stretch = true
+
+[node name="OrbitBack" type="Node2D" parent="Root"]
+z_index = -1
+script = ExtResource("15_orbit")
+front = false
+
+[node name="Viewport" type="SubViewport" parent="Root/Stage"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+msaa_3d = 1
+size = Vector2i(832, 738)
+render_target_update_mode = 4
+
+[node name="Env" type="WorldEnvironment" parent="Root/Stage/Viewport"]
+environment = SubResource("Environment_stage")
+
+[node name="Camera" type="Camera3D" parent="Root/Stage/Viewport"]
+position = Vector3(0, 1.2, 4.2)
+rotation = Vector3(-0.1, 0, 0)
+current = true
+fov = 38.0
+
+[node name="Key" type="DirectionalLight3D" parent="Root/Stage/Viewport"]
+rotation = Vector3(-0.8, 0.6, 0)
+light_color = Color(1, 0.9, 0.75, 1)
+light_energy = 1.1
+
+[node name="Rim" type="OmniLight3D" parent="Root/Stage/Viewport"]
+position = Vector3(-1.4, 2, -1.4)
+light_color = Color(0.55, 0.6, 1, 1)
+light_energy = 4.0
+omni_range = 5.0
+
+[node name="Spot" type="SpotLight3D" parent="Root/Stage/Viewport"]
+position = Vector3(0, 4.5, 0.4)
+rotation = Vector3(-1.5708, 0, 0)
+light_color = Color(1, 0.93, 0.8, 1)
+light_energy = 7.0
+spot_range = 7.0
+spot_angle = 22.0
+
+[node name="Podium" type="MeshInstance3D" parent="Root/Stage/Viewport"]
+position = Vector3(0, -0.15, 0)
+mesh = SubResource("CylinderMesh_podium")
+
+[node name="Ring" type="MeshInstance3D" parent="Root/Stage/Viewport"]
+position = Vector3(0, 0.01, 0)
+mesh = SubResource("TorusMesh_ring")
+
+[node name="Primo" parent="Root/Stage/Viewport" instance=ExtResource("9_primo")]
+scale = Vector3(12, 12, 12)
+
+[node name="Burst" type="CPUParticles3D" parent="Root/Stage/Viewport"]
+amount = 40
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+mesh = SubResource("BoxMesh_burst")
+direction = Vector3(0, 1, 0)
+spread = 80.0
+gravity = Vector3(0, -6, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 4.5
+angle_max = 360.0
+
+[node name="OrbitFront" type="Node2D" parent="Root"]
+z_index = 1
+script = ExtResource("15_orbit")
+
+[node name="Stampede" type="Node2D" parent="Root"]
+
+[node name="Firework1" type="CPUParticles2D" parent="Root"]
+process_mode = 3
+amount = 100
+lifetime = 1.3
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 220)
+initial_velocity_min = 280.0
+initial_velocity_max = 520.0
+damping_min = 60.0
+damping_max = 90.0
+scale_amount_min = 6.0
+scale_amount_max = 10.0
+color_ramp = SubResource("Gradient_fade")
+
+[node name="Firework2" type="CPUParticles2D" parent="Root"]
+process_mode = 3
+amount = 100
+lifetime = 1.3
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 220)
+initial_velocity_min = 280.0
+initial_velocity_max = 520.0
+damping_min = 60.0
+damping_max = 90.0
+scale_amount_min = 6.0
+scale_amount_max = 10.0
+color_ramp = SubResource("Gradient_fade")
+
+[node name="Firework3" type="CPUParticles2D" parent="Root"]
+process_mode = 3
+amount = 100
+lifetime = 1.3
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 220)
+initial_velocity_min = 280.0
+initial_velocity_max = 520.0
+damping_min = 60.0
+damping_max = 90.0
+scale_amount_min = 6.0
+scale_amount_max = 10.0
+color_ramp = SubResource("Gradient_fade")
+
+[node name="CannonLeft" type="CPUParticles2D" parent="Root"]
+position = Vector2(0, 950)
+direction = Vector2(0.45, -1)
+process_mode = 3
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_leaf")
+amount = 160
+lifetime = 4.0
+one_shot = true
+explosiveness = 0.85
+texture = ExtResource("3_leaf")
+spread = 22.0
+gravity = Vector2(0, 700)
+initial_velocity_min = 700.0
+initial_velocity_max = 1400.0
+damping_min = 80.0
+damping_max = 160.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color_initial_ramp = SubResource("Gradient_tints")
+anim_speed_min = 0.6
+anim_speed_max = 1.4
+
+[node name="CannonRight" type="CPUParticles2D" parent="Root"]
+position = Vector2(1600, 950)
+direction = Vector2(-0.45, -1)
+process_mode = 3
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_leaf")
+amount = 160
+lifetime = 4.0
+one_shot = true
+explosiveness = 0.85
+texture = ExtResource("3_leaf")
+spread = 22.0
+gravity = Vector2(0, 700)
+initial_velocity_min = 700.0
+initial_velocity_max = 1400.0
+damping_min = 80.0
+damping_max = 160.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color_initial_ramp = SubResource("Gradient_tints")
+anim_speed_min = 0.6
+anim_speed_max = 1.4
+
+[node name="Rain" type="CPUParticles2D" parent="Root"]
+process_mode = 3
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_leaf")
+position = Vector2(800, -40)
+amount = 80
+lifetime = 4.0
+texture = ExtResource("3_leaf")
+emission_shape = 3
+emission_rect_extents = Vector2(900, 10)
+direction = Vector2(0, 1)
+spread = 22.0
+gravity = Vector2(0, 90)
+initial_velocity_min = 60.0
+initial_velocity_max = 160.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color_initial_ramp = SubResource("Gradient_tints")
+anim_speed_min = 0.6
+anim_speed_max = 1.4
+
+[node name="Title" type="RichTextLabel" parent="Root"]
+material = SubResource("ShaderMaterial_shine")
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 40.0
+offset_bottom = 200.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(1, 0.84, 0.32, 1)
+theme_override_colors/font_outline_color = Color(0.28, 0.08, 0.02, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.45)
+theme_override_constants/shadow_offset_y = 10
+theme_override_constants/outline_size = 26
+theme_override_font_sizes/normal_font_size = 110
+bbcode_enabled = true
+text = "[center][wave amp=35 freq=4]YOU FOUND EVERYTHING![/wave][/center]"
+scroll_active = false
+
+[node name="Vine" type="TextureRect" parent="Root/Title"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -450.0
+offset_top = -84.0
+offset_right = 450.0
+offset_bottom = 36.0
+mouse_filter = 2
+texture = ExtResource("22_vine")
+
+[node name="Frame" type="Panel" parent="Root"]
+layout_mode = 1
+anchor_left = 0.545
+anchor_top = 0.27
+anchor_right = 0.975
+anchor_bottom = 0.975
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_frame")
+
+[node name="TopLeft" type="TextureRect" parent="Root/Frame"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 39.0
+offset_bottom = 39.0
+mouse_filter = 2
+texture = ExtResource("21_leaf")
+expand_mode = 1
+
+[node name="TopRight" type="TextureRect" parent="Root/Frame"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -39.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 39.0
+mouse_filter = 2
+texture = ExtResource("21_leaf")
+expand_mode = 1
+flip_h = true
+
+[node name="BottomLeft" type="TextureRect" parent="Root/Frame"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -39.0
+offset_right = 39.0
+offset_bottom = 0.0
+mouse_filter = 2
+texture = ExtResource("21_leaf")
+expand_mode = 1
+flip_v = true
+
+[node name="BottomRight" type="TextureRect" parent="Root/Frame"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -39.0
+offset_top = -39.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+texture = ExtResource("21_leaf")
+expand_mode = 1
+flip_h = true
+flip_v = true
+
+[node name="Panel" type="VBoxContainer" parent="Root"]
+layout_mode = 1
+anchor_left = 0.56
+anchor_top = 0.3
+anchor_right = 0.96
+anchor_bottom = 0.95
+mouse_filter = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Counter" type="Label" parent="Root/Panel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.55, 1)
+theme_override_colors/font_outline_color = Color(0.28, 0.08, 0.02, 1)
+theme_override_constants/outline_size = 22
+theme_override_font_sizes/font_size = 130
+text = "15 / 15"
+horizontal_alignment = 1
+
+[node name="Caption" type="Label" parent="Root/Panel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.85, 1)
+theme_override_colors/font_outline_color = Color(0.28, 0.08, 0.02, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 40
+text = "lost things found"
+horizontal_alignment = 1
+
+[node name="BestTime" type="Label" parent="Root/Panel"]
+material = SubResource("ShaderMaterial_best")
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0.28, 0.08, 0.02, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 38
+text = "new best time  12:34"
+horizontal_alignment = 1
+
+[node name="Stars" type="Control" parent="Root/Panel"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Star1" type="Sprite2D" parent="Root/Panel/Stars"]
+position = Vector2(190, 60)
+texture = ExtResource("13_star")
+
+[node name="Sparkle" type="CPUParticles2D" parent="Root/Panel/Stars/Star1"]
+process_mode = 3
+amount = 28
+lifetime = 0.7
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 500)
+initial_velocity_min = 180.0
+initial_velocity_max = 380.0
+scale_amount_min = 4.0
+scale_amount_max = 8.0
+color = Color(1, 0.88, 0.4, 1)
+
+[node name="Star2" type="Sprite2D" parent="Root/Panel/Stars"]
+position = Vector2(320, 48)
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("13_star")
+
+[node name="Sparkle" type="CPUParticles2D" parent="Root/Panel/Stars/Star2"]
+process_mode = 3
+amount = 28
+lifetime = 0.7
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 500)
+initial_velocity_min = 180.0
+initial_velocity_max = 380.0
+scale_amount_min = 4.0
+scale_amount_max = 8.0
+color = Color(1, 0.88, 0.4, 1)
+
+[node name="Star3" type="Sprite2D" parent="Root/Panel/Stars"]
+position = Vector2(450, 60)
+texture = ExtResource("13_star")
+
+[node name="Sparkle" type="CPUParticles2D" parent="Root/Panel/Stars/Star3"]
+process_mode = 3
+amount = 28
+lifetime = 0.7
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 500)
+initial_velocity_min = 180.0
+initial_velocity_max = 380.0
+scale_amount_min = 4.0
+scale_amount_max = 8.0
+color = Color(1, 0.88, 0.4, 1)
+
+[node name="Buttons" type="HBoxContainer" parent="Root/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="KeepRaking" type="Button" parent="Root/Panel/Buttons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 44
+text = "Keep Raking"
+
+[node name="MainMenu" type="Button" parent="Root/Panel/Buttons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 44
+text = "Main Menu"
+
+[node name="Flourish" parent="Root" instance=ExtResource("6_flourish")]
+layout_mode = 0
+
+[node name="Flash" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 0.97, 0.9, 0)
+
+[connection signal="pressed" from="Root/Panel/Buttons/KeepRaking" to="." method="_close"]
+
+[node name="Sfx" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamPolyphonic_sfx")
+autoplay = true
+bus = &"SFX"

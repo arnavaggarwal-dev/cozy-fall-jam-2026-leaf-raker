@@ -1,0 +1,382 @@
+[gd_scene format=3 uid="uid://b4nq5nwwji1u2"]
+
+[ext_resource type="Script" uid="uid://broe0m5kkxlpl" path="res://scenes/ui/options.gd" id="1_script"]
+
+[ext_resource type="Texture2D" path="res://assets/textures/ui/title_divider.png" id="8_divider"]
+[ext_resource type="Theme" uid="uid://6tsppgs6x4a3" path="res://scenes/ui/menu_theme.tres" id="9_theme"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/corner_leaf.png" id="10_leaf"]
+[ext_resource type="Script" path="res://scenes/ui/acorn_slider.gd" id="11_slider"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/acorn_grabber.png" id="12_acorn"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/acorn_grabber_hot.png" id="13_acorn_hot"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/tab_vine.png" id="14_tab"]
+[sub_resource type="ButtonGroup" id="ButtonGroup_device"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tab"]
+content_margin_left = 24.0
+content_margin_top = 2.0
+content_margin_right = 24.0
+content_margin_bottom = 20.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tab"]
+content_margin_left = 24.0
+content_margin_top = 2.0
+content_margin_right = 24.0
+content_margin_bottom = 20.0
+texture = ExtResource("14_tab")
+texture_margin_left = 12.0
+texture_margin_top = 0.0
+texture_margin_right = 12.0
+texture_margin_bottom = 24.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="Options" type="PanelContainer" unique_id=1431110453]
+process_mode = 3
+theme = ExtResource("9_theme")
+script = ExtResource("1_script")
+
+[node name="Pages" type="VBoxContainer" parent="." unique_id=639557809]
+layout_mode = 2
+
+[node name="Settings" type="VBoxContainer" parent="Pages" unique_id=982459618]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Pages/Settings" unique_id=1505000224]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.45, 1)
+theme_override_font_sizes/font_size = 40
+text = "Options"
+horizontal_alignment = 1
+
+[node name="Divider" type="TextureRect" parent="Pages/Settings"]
+layout_mode = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 2
+texture = ExtResource("8_divider")
+stretch_mode = 3
+
+[node name="Sensitivity" type="HBoxContainer" parent="Pages/Settings" unique_id=24150622]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="Pages/Settings/Sensitivity" unique_id=39167175]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+text = "Mouse sensitivity"
+
+[node name="Slider" type="HSlider" parent="Pages/Settings/Sensitivity" unique_id=1982946992]
+script = ExtResource("11_slider")
+cold = ExtResource("12_acorn")
+hot = ExtResource("13_acorn_hot")
+custom_minimum_size = Vector2(300, 28)
+layout_mode = 2
+size_flags_vertical = 4
+min_value = 0.2
+max_value = 3.0
+step = 0.01
+value = 0.2
+
+[node name="Volume" type="HBoxContainer" parent="Pages/Settings" unique_id=469520083]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="Pages/Settings/Volume" unique_id=567955874]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+text = "All audio"
+
+[node name="Slider" type="HSlider" parent="Pages/Settings/Volume" unique_id=1337308948]
+script = ExtResource("11_slider")
+cold = ExtResource("12_acorn")
+hot = ExtResource("13_acorn_hot")
+custom_minimum_size = Vector2(300, 28)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 10.0
+tick_count = 11
+ticks_on_borders = true
+
+[node name="SfxVolume" type="HBoxContainer" parent="Pages/Settings" unique_id=1925661593]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="Pages/Settings/SfxVolume" unique_id=1571947773]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+text = "Sound effects"
+
+[node name="Slider" type="HSlider" parent="Pages/Settings/SfxVolume" unique_id=1942969014]
+script = ExtResource("11_slider")
+cold = ExtResource("12_acorn")
+hot = ExtResource("13_acorn_hot")
+custom_minimum_size = Vector2(300, 28)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 10.0
+tick_count = 11
+ticks_on_borders = true
+
+[node name="Fullscreen" type="CheckBox" parent="Pages/Settings" unique_id=1433874948]
+layout_mode = 2
+text = "Fullscreen"
+
+[node name="MusicButton" type="Button" parent="Pages/Settings" unique_id=586745525]
+layout_mode = 2
+text = "Music: Cozy mix"
+
+[node name="ControlsButton" type="Button" parent="Pages/Settings" unique_id=1691625847]
+layout_mode = 2
+text = "Controls"
+
+[node name="Back" type="Button" parent="Pages/Settings" unique_id=768242729]
+layout_mode = 2
+text = "Back"
+
+[node name="Controls" type="VBoxContainer" parent="Pages" unique_id=591686809]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Title" type="Label" parent="Pages/Controls" unique_id=811052085]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.45, 1)
+theme_override_font_sizes/font_size = 40
+text = "Controls"
+horizontal_alignment = 1
+
+[node name="Divider" type="TextureRect" parent="Pages/Controls"]
+layout_mode = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 2
+texture = ExtResource("8_divider")
+stretch_mode = 3
+
+[node name="Device" type="HBoxContainer" parent="Pages/Controls"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Keyboard" type="Button" parent="Pages/Controls/Device"]
+custom_minimum_size = Vector2(260, 76)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tab")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_tab")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_tab")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_tab")
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_device")
+theme_override_colors/font_pressed_color = Color(1, 0.8, 0.45, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 0.8, 0.45, 1)
+theme_override_font_sizes/font_size = 40
+text = "Keyboard"
+
+[node name="Controller" type="Button" parent="Pages/Controls/Device"]
+custom_minimum_size = Vector2(260, 76)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tab")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_tab")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_tab")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_tab")
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_device")
+theme_override_colors/font_pressed_color = Color(1, 0.8, 0.45, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 0.8, 0.45, 1)
+theme_override_font_sizes/font_size = 40
+text = "Controller"
+
+[node name="Keys" type="GridContainer" parent="Pages/Controls" unique_id=132678767]
+layout_mode = 2
+theme_override_constants/h_separation = 18
+columns = 2
+
+[node name="forward" type="Button" parent="Pages/Controls/Keys" unique_id=1957754862]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="back" type="Button" parent="Pages/Controls/Keys" unique_id=1001055420]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="left" type="Button" parent="Pages/Controls/Keys" unique_id=1564013104]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="right" type="Button" parent="Pages/Controls/Keys" unique_id=1842687382]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="jump" type="Button" parent="Pages/Controls/Keys" unique_id=1447634027]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="dash" type="Button" parent="Pages/Controls/Keys" unique_id=1244582888]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="look_left" type="Button" parent="Pages/Controls/Keys" unique_id=443673024]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="look_right" type="Button" parent="Pages/Controls/Keys" unique_id=1514456395]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="look_up" type="Button" parent="Pages/Controls/Keys" unique_id=1164376949]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="look_down" type="Button" parent="Pages/Controls/Keys" unique_id=1516036081]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="inventory" type="Button" parent="Pages/Controls/Keys" unique_id=637525879]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="drop" type="Button" parent="Pages/Controls/Keys" unique_id=365802337]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="pick_up" type="Button" parent="Pages/Controls/Keys" unique_id=1889560990]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="fresh_leaves" type="Button" parent="Pages/Controls/Keys" unique_id=938613129]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="use" type="Button" parent="Pages/Controls/Keys" unique_id=1259317374]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="hotbar_prev" type="Button" parent="Pages/Controls/Keys"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="hotbar_next" type="Button" parent="Pages/Controls/Keys"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="Reset" type="Button" parent="Pages/Controls" unique_id=755275357]
+layout_mode = 2
+text = "Reset to defaults"
+
+[node name="Back" type="Button" parent="Pages/Controls" unique_id=314215039]
+layout_mode = 2
+text = "Back"
+
+[node name="Corners" type="Control" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TopLeft" type="TextureRect" parent="Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -50.0
+offset_top = -44.0
+offset_right = -11.0
+offset_bottom = -5.0
+mouse_filter = 2
+texture = ExtResource("10_leaf")
+expand_mode = 1
+
+[node name="TopRight" type="TextureRect" parent="Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 11.0
+offset_top = -44.0
+offset_right = 50.0
+offset_bottom = -5.0
+mouse_filter = 2
+texture = ExtResource("10_leaf")
+expand_mode = 1
+flip_h = true
+
+[node name="BottomLeft" type="TextureRect" parent="Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = 5.0
+offset_right = -11.0
+offset_bottom = 44.0
+mouse_filter = 2
+texture = ExtResource("10_leaf")
+expand_mode = 1
+flip_v = true
+
+[node name="BottomRight" type="TextureRect" parent="Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 5.0
+offset_right = 50.0
+offset_bottom = 44.0
+mouse_filter = 2
+texture = ExtResource("10_leaf")
+expand_mode = 1
+flip_h = true
+flip_v = true
+
+[node name="Acorn" type="TextureRect" parent="Pages/Settings/Sensitivity/Slider"]
+layout_mode = 0
+offset_right = 36.0
+offset_bottom = 42.0
+rotation = 0.7853982
+pivot_offset = Vector2(18, 21)
+mouse_filter = 2
+texture = ExtResource("12_acorn")
+
+[node name="Acorn" type="TextureRect" parent="Pages/Settings/Volume/Slider"]
+layout_mode = 0
+offset_right = 36.0
+offset_bottom = 42.0
+rotation = 0.7853982
+pivot_offset = Vector2(18, 21)
+mouse_filter = 2
+texture = ExtResource("12_acorn")
+
+[node name="Acorn" type="TextureRect" parent="Pages/Settings/SfxVolume/Slider"]
+layout_mode = 0
+offset_right = 36.0
+offset_bottom = 42.0
+rotation = 0.7853982
+pivot_offset = Vector2(18, 21)
+mouse_filter = 2
+texture = ExtResource("12_acorn")
+
+[connection signal="pressed" from="Pages/Settings/ControlsButton" to="." method="show_page" binds= [true]]

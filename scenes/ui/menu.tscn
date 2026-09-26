@@ -1,0 +1,771 @@
+[gd_scene format=3 uid="uid://db33t4g0vtb6v"]
+
+[ext_resource type="Script" uid="uid://bfryxatggynn8" path="res://scenes/ui/menu.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://6tsppgs6x4a3" path="res://scenes/ui/menu_theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" uid="uid://dfc80p00kk3em" path="res://assets/textures/ui/fall_leaf.png" id="3_leaf"]
+[ext_resource type="PackedScene" path="res://scenes/ui/options.tscn" id="4_options"]
+[ext_resource type="PackedScene" path="res://scenes/ui/flourish.tscn" id="5_flourish"]
+[ext_resource type="Shader" path="res://shaders/win_shine.gdshader" id="7_shine"]
+[ext_resource type="Script" path="res://scenes/ui/found_row.gd" id="8_found"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/frame_card.png" id="9_card"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/frame_card_hot.png" id="10_card_hot"]
+
+[ext_resource type="Texture2D" path="res://assets/textures/ui/title_divider.png" id="11_divider"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/title_vine.png" id="20_vine"]
+[ext_resource type="SpriteFrames" path="res://assets/textures/ui/sapling_frames.tres" id="22_sapling"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/title_divider.png" id="23_divider"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/forest_far.png" id="30_far"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/forest_mid.png" id="31_mid"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/forest_near.png" id="32_near"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/frame.png" id="33_frame"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/corner_leaf.png" id="34_leaf"]
+[sub_resource type="Gradient" id="Gradient_glow"]
+colors = PackedColorArray(0.45, 0.2, 0.06, 0.55, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_glow"]
+gradient = SubResource("Gradient_glow")
+fill = 1
+fill_from = Vector2(0.5, 0.42)
+fill_to = Vector2(0.5, 1.1)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_leaf"]
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_best"]
+shader = ExtResource("7_shine")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_card"]
+content_margin_left = 22.0
+content_margin_top = 14.0
+content_margin_right = 22.0
+content_margin_bottom = 14.0
+texture = ExtResource("9_card")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_card_hot"]
+content_margin_left = 22.0
+content_margin_top = 14.0
+content_margin_right = 22.0
+content_margin_bottom = 14.0
+texture = ExtResource("10_card_hot")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_credits"]
+content_margin_left = 50.0
+content_margin_top = 44.0
+content_margin_right = 50.0
+content_margin_bottom = 44.0
+texture = ExtResource("33_frame")
+texture_margin_left = 54.0
+texture_margin_top = 54.0
+texture_margin_right = 54.0
+texture_margin_bottom = 54.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="Menu" type="Control" unique_id=398735009]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1105110566]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.035, 0.02, 0.012, 1)
+
+[node name="Glow" type="TextureRect" parent="." unique_id=1773687421]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_glow")
+expand_mode = 1
+
+[node name="Forest" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Far" type="TextureRect" parent="Forest"]
+texture_filter = 1
+texture_repeat = 2
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -210.0
+offset_right = 60.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("30_far")
+stretch_mode = 1
+
+[node name="Mid" type="TextureRect" parent="Forest"]
+texture_filter = 1
+texture_repeat = 2
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -180.0
+offset_right = 60.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("31_mid")
+stretch_mode = 1
+
+[node name="Leaves" type="CPUParticles2D" parent="." unique_id=2103795343]
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_leaf")
+position = Vector2(800, -60)
+amount = 40
+texture = ExtResource("3_leaf")
+lifetime = 14.0
+preprocess = 14.0
+emission_shape = 3
+emission_rect_extents = Vector2(1000, 10)
+direction = Vector2(0.3, 1)
+spread = 20.0
+gravity = Vector2(12, 40)
+initial_velocity_min = 30.0
+initial_velocity_max = 70.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color = Color(1, 1, 1, 0.55)
+hue_variation_min = -0.04
+hue_variation_max = 0.06
+anim_speed_min = 0.5
+anim_speed_max = 1.0
+
+[node name="Near" type="TextureRect" parent="Forest"]
+texture_filter = 1
+texture_repeat = 2
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -138.0
+offset_right = 60.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("32_near")
+stretch_mode = 1
+
+[node name="MainCenter" type="CenterContainer" parent="." unique_id=1363350512]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Main" type="VBoxContainer" parent="MainCenter" unique_id=1919543673]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="MainCenter/Main" unique_id=1589370610]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.45, 1)
+theme_override_colors/font_shadow_color = Color(1, 0.45, 0.1, 0.35)
+theme_override_constants/shadow_offset_y = 6
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 180
+text = "Leaf Raker"
+horizontal_alignment = 1
+
+[node name="Vine" type="TextureRect" parent="MainCenter/Main/Title"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -450.0
+offset_top = -10.0
+offset_right = 450.0
+offset_bottom = 110.0
+mouse_filter = 2
+texture = ExtResource("20_vine")
+
+[node name="Tagline" type="Label" parent="MainCenter/Main" unique_id=807264906]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.8, 0.65, 0.6)
+theme_override_font_sizes/font_size = 54
+text = "Land of the lost 15 thingamajigs"
+horizontal_alignment = 1
+
+[node name="Divider" type="TextureRect" parent="MainCenter/Main"]
+layout_mode = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 2
+texture = ExtResource("23_divider")
+stretch_mode = 3
+
+[node name="BestTime" type="Label" parent="MainCenter/Main"]
+material = SubResource("ShaderMaterial_best")
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0.28, 0.08, 0.02, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 36
+text = "best time  12:34"
+horizontal_alignment = 1
+
+[node name="Gap" type="Control" parent="MainCenter/Main" unique_id=2134363675]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+[node name="Start" type="Button" parent="MainCenter/Main" unique_id=1443283137]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Start Game"
+
+[node name="OptionsButton" type="Button" parent="MainCenter/Main" unique_id=1270643242]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Options"
+
+[node name="ControlsButton" type="Button" parent="MainCenter/Main" unique_id=1966959075]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Controls"
+
+[node name="CreditsButton" type="Button" parent="MainCenter/Main" unique_id=1333268178]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Credits"
+
+[node name="Quit" type="Button" parent="MainCenter/Main" unique_id=885999014]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Quit Game"
+
+[node name="OptionsCenter" type="CenterContainer" parent="." unique_id=959480012]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Options" parent="OptionsCenter" unique_id=108636492 instance=ExtResource("4_options")]
+visible = false
+layout_mode = 2
+
+[node name="CreditsCenter" type="CenterContainer" parent="." unique_id=925456147]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+mouse_filter = 2
+
+[node name="Corners" type="Panel" parent="CreditsCenter"]
+custom_minimum_size = Vector2(1100, 820)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_credits")
+
+[node name="TopLeft" type="TextureRect" parent="CreditsCenter/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 39.0
+offset_bottom = 39.0
+mouse_filter = 2
+texture = ExtResource("34_leaf")
+expand_mode = 1
+
+[node name="TopRight" type="TextureRect" parent="CreditsCenter/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -39.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 39.0
+mouse_filter = 2
+texture = ExtResource("34_leaf")
+expand_mode = 1
+flip_h = true
+
+[node name="BottomLeft" type="TextureRect" parent="CreditsCenter/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -39.0
+offset_right = 39.0
+offset_bottom = 0.0
+mouse_filter = 2
+texture = ExtResource("34_leaf")
+expand_mode = 1
+flip_v = true
+
+[node name="BottomRight" type="TextureRect" parent="CreditsCenter/Corners"]
+texture_filter = 1
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -39.0
+offset_top = -39.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+texture = ExtResource("34_leaf")
+expand_mode = 1
+flip_h = true
+flip_v = true
+
+[node name="Credits" type="ScrollContainer" parent="CreditsCenter" unique_id=236152162]
+custom_minimum_size = Vector2(1010, 720)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Text" type="RichTextLabel" parent="CreditsCenter/Credits" unique_id=917026085]
+custom_minimum_size = Vector2(980, 0)
+layout_mode = 2
+mouse_filter = 1
+bbcode_enabled = true
+text = "[center][font_size=64][color=#ffcc73]Leaf Raker[/color][/font_size]
+[font_size=26]a game by[/font_size]
+[font_size=44][color=#ffcc73]Lazilydev[/color][/font_size]
+
+
+[img]res://assets/textures/ui/title_divider.png[/img]
+[font_size=32][color=#ffcc73]Models[/color][/font_size]
+Hand Rake  -  Poly Pizza
+Graveyard, Survival, Holiday, Food and Nature Kits  -  Kenney
+Flowers by Quaternius  -  Poly Pizza
+El Primo Dancing by 3D by Renato  -  Sketchfab
+Squirrel and Acorn by Poly by Google  -  Poly Pizza
+
+[img]res://assets/textures/ui/title_divider.png[/img]
+[font_size=32][color=#ffcc73]Textures[/color][/font_size]
+Leaf Set 009 and 010  -  ambientCG
+Forest Ground 06  -  Poly Haven
+
+[img]res://assets/textures/ui/title_divider.png[/img]
+[font_size=32][color=#ffcc73]Music[/color][/font_size]
+Harvest Season by RandomMind  -  OpenGameArt
+Another August by cynicmusic  -  OpenGameArt
+Kabonk Sparkle by Wesley Wong
+
+[img]res://assets/textures/ui/title_divider.png[/img]
+[font_size=32][color=#ffcc73]Sound[/color][/font_size]
+20 Rustles (Dry Leaves) by qubodup  -  OpenGameArt
+Interface Sounds and Impact Sounds  -  Kenney
+Nature Ambient Pack by JC Sounds  -  OpenGameArt
+Chunky Explosion by Joth  -  OpenGameArt
+Fire Crackling by AntumDeluge  -  OpenGameArt
+
+[img]res://assets/textures/ui/title_divider.png[/img]
+[font_size=32][color=#ffcc73]2D Art[/color][/font_size]
+Squirrel Sprites by Elthen  -  itch.io
+Windy Leaves by EdgeLoopRepeat  -  itch.io
+Input Prompts and Fantasy UI Borders  -  Kenney
+
+[img]res://assets/textures/ui/title_divider.png[/img]
+[font_size=32][color=#ffcc73]Engine[/color][/font_size]
+Made with Godot Engine
+
+
+[font_size=26]thanks for raking[/font_size][/center]"
+fit_content = true
+
+[node name="SavesCenter" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Saves" type="VBoxContainer" parent="SavesCenter"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="SavesCenter/Saves"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.45, 1)
+theme_override_font_sizes/font_size = 56
+text = "Choose a save"
+horizontal_alignment = 1
+
+[node name="Divider" type="TextureRect" parent="SavesCenter/Saves"]
+layout_mode = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 2
+texture = ExtResource("11_divider")
+stretch_mode = 3
+
+[node name="Slot1" type="HBoxContainer" parent="SavesCenter/Saves"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Play" type="Button" parent="SavesCenter/Saves/Slot1"]
+custom_minimum_size = Vector2(820, 118)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_card")
+theme_override_styles/hover = SubResource("StyleBoxTexture_card_hot")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_card_hot")
+theme_override_styles/focus = SubResource("StyleBoxTexture_card_hot")
+
+[node name="Row" type="HBoxContainer" parent="SavesCenter/Saves/Slot1/Play"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_right = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 28
+
+[node name="Number" type="Label" parent="SavesCenter/Saves/Slot1/Play/Row"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0.25, 0.1, 0.02, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 80
+text = "1"
+horizontal_alignment = 1
+
+[node name="Info" type="VBoxContainer" parent="SavesCenter/Saves/Slot1/Play/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 10
+
+[node name="Status" type="Label" parent="SavesCenter/Saves/Slot1/Play/Row/Info"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "New game"
+
+[node name="Found" type="Control" parent="SavesCenter/Saves/Slot1/Play/Row/Info"]
+custom_minimum_size = Vector2(594, 34)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("8_found")
+
+[node name="Clear" type="Button" parent="SavesCenter/Saves/Slot1"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 0.45, 0.35, 1)
+theme_override_colors/font_focus_color = Color(1, 0.45, 0.35, 1)
+theme_override_font_sizes/font_size = 26
+text = "Clear"
+alignment = 2
+
+[node name="Sapling" type="AnimatedSprite2D" parent="SavesCenter/Saves/Slot1/Clear"]
+position = Vector2(34, 59)
+sprite_frames = ExtResource("22_sapling")
+animation = &"idle"
+
+[node name="Slot2" type="HBoxContainer" parent="SavesCenter/Saves"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Play" type="Button" parent="SavesCenter/Saves/Slot2"]
+custom_minimum_size = Vector2(820, 118)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_card")
+theme_override_styles/hover = SubResource("StyleBoxTexture_card_hot")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_card_hot")
+theme_override_styles/focus = SubResource("StyleBoxTexture_card_hot")
+
+[node name="Row" type="HBoxContainer" parent="SavesCenter/Saves/Slot2/Play"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_right = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 28
+
+[node name="Number" type="Label" parent="SavesCenter/Saves/Slot2/Play/Row"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0.25, 0.1, 0.02, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 80
+text = "2"
+horizontal_alignment = 1
+
+[node name="Info" type="VBoxContainer" parent="SavesCenter/Saves/Slot2/Play/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 10
+
+[node name="Status" type="Label" parent="SavesCenter/Saves/Slot2/Play/Row/Info"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "New game"
+
+[node name="Found" type="Control" parent="SavesCenter/Saves/Slot2/Play/Row/Info"]
+custom_minimum_size = Vector2(594, 34)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("8_found")
+
+[node name="Clear" type="Button" parent="SavesCenter/Saves/Slot2"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 0.45, 0.35, 1)
+theme_override_colors/font_focus_color = Color(1, 0.45, 0.35, 1)
+theme_override_font_sizes/font_size = 26
+text = "Clear"
+alignment = 2
+
+[node name="Sapling" type="AnimatedSprite2D" parent="SavesCenter/Saves/Slot2/Clear"]
+position = Vector2(34, 59)
+sprite_frames = ExtResource("22_sapling")
+animation = &"idle"
+
+[node name="Slot3" type="HBoxContainer" parent="SavesCenter/Saves"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Play" type="Button" parent="SavesCenter/Saves/Slot3"]
+custom_minimum_size = Vector2(820, 118)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_card")
+theme_override_styles/hover = SubResource("StyleBoxTexture_card_hot")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_card_hot")
+theme_override_styles/focus = SubResource("StyleBoxTexture_card_hot")
+
+[node name="Row" type="HBoxContainer" parent="SavesCenter/Saves/Slot3/Play"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_right = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 28
+
+[node name="Number" type="Label" parent="SavesCenter/Saves/Slot3/Play/Row"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0.25, 0.1, 0.02, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 80
+text = "3"
+horizontal_alignment = 1
+
+[node name="Info" type="VBoxContainer" parent="SavesCenter/Saves/Slot3/Play/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 10
+
+[node name="Status" type="Label" parent="SavesCenter/Saves/Slot3/Play/Row/Info"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "New game"
+
+[node name="Found" type="Control" parent="SavesCenter/Saves/Slot3/Play/Row/Info"]
+custom_minimum_size = Vector2(594, 34)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("8_found")
+
+[node name="Clear" type="Button" parent="SavesCenter/Saves/Slot3"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 0.45, 0.35, 1)
+theme_override_colors/font_focus_color = Color(1, 0.45, 0.35, 1)
+theme_override_font_sizes/font_size = 26
+text = "Clear"
+alignment = 2
+
+[node name="Sapling" type="AnimatedSprite2D" parent="SavesCenter/Saves/Slot3/Clear"]
+position = Vector2(34, 59)
+sprite_frames = ExtResource("22_sapling")
+animation = &"idle"
+
+[node name="Slot4" type="HBoxContainer" parent="SavesCenter/Saves"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Play" type="Button" parent="SavesCenter/Saves/Slot4"]
+custom_minimum_size = Vector2(820, 118)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_card")
+theme_override_styles/hover = SubResource("StyleBoxTexture_card_hot")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_card_hot")
+theme_override_styles/focus = SubResource("StyleBoxTexture_card_hot")
+
+[node name="Row" type="HBoxContainer" parent="SavesCenter/Saves/Slot4/Play"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_right = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 28
+
+[node name="Number" type="Label" parent="SavesCenter/Saves/Slot4/Play/Row"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0.25, 0.1, 0.02, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 80
+text = "4"
+horizontal_alignment = 1
+
+[node name="Info" type="VBoxContainer" parent="SavesCenter/Saves/Slot4/Play/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 10
+
+[node name="Status" type="Label" parent="SavesCenter/Saves/Slot4/Play/Row/Info"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "New game"
+
+[node name="Found" type="Control" parent="SavesCenter/Saves/Slot4/Play/Row/Info"]
+custom_minimum_size = Vector2(594, 34)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("8_found")
+
+[node name="Clear" type="Button" parent="SavesCenter/Saves/Slot4"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 0.45, 0.35, 1)
+theme_override_colors/font_focus_color = Color(1, 0.45, 0.35, 1)
+theme_override_font_sizes/font_size = 26
+text = "Clear"
+alignment = 2
+
+[node name="Sapling" type="AnimatedSprite2D" parent="SavesCenter/Saves/Slot4/Clear"]
+position = Vector2(34, 59)
+sprite_frames = ExtResource("22_sapling")
+animation = &"idle"
+
+[node name="Back" type="Button" parent="SavesCenter/Saves"]
+layout_mode = 2
+text = "Back"
+
+[node name="Footer" type="Label" parent="." unique_id=377214414]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -160.0
+offset_top = -48.0
+offset_right = -20.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.9, 0.8, 0.65, 0.45)
+theme_override_font_sizes/font_size = 20
+text = "by Lazilydev"
+horizontal_alignment = 2
+
+[node name="Flourish" parent="." unique_id=1677969870 instance=ExtResource("5_flourish")]
+anchors_preset = 0
+
+[node name="Fade" type="ColorRect" parent="." unique_id=870393992]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[connection signal="pressed" from="MainCenter/Main/Start" to="." method="_open" binds= ["saves"]]
+[connection signal="pressed" from="MainCenter/Main/OptionsButton" to="." method="_open" binds= ["options"]]
+[connection signal="pressed" from="MainCenter/Main/ControlsButton" to="." method="_open" binds= ["controls"]]
+[connection signal="pressed" from="MainCenter/Main/CreditsButton" to="." method="_open" binds= ["credits"]]
+[connection signal="closed" from="OptionsCenter/Options" to="." method="_open" binds= [""]]
+[connection signal="pressed" from="SavesCenter/Saves/Slot1/Play" to="." method="_play_slot" binds= [1]]
+[connection signal="pressed" from="SavesCenter/Saves/Slot1/Clear" to="." method="_clear_slot" binds= [1]]
+[connection signal="pressed" from="SavesCenter/Saves/Slot2/Play" to="." method="_play_slot" binds= [2]]
+[connection signal="pressed" from="SavesCenter/Saves/Slot2/Clear" to="." method="_clear_slot" binds= [2]]
+[connection signal="pressed" from="SavesCenter/Saves/Slot3/Play" to="." method="_play_slot" binds= [3]]
+[connection signal="pressed" from="SavesCenter/Saves/Slot3/Clear" to="." method="_clear_slot" binds= [3]]
+[connection signal="pressed" from="SavesCenter/Saves/Slot4/Play" to="." method="_play_slot" binds= [4]]
+[connection signal="pressed" from="SavesCenter/Saves/Slot4/Clear" to="." method="_clear_slot" binds= [4]]
+[connection signal="pressed" from="SavesCenter/Saves/Back" to="." method="_open" binds= [""]]

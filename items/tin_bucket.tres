@@ -1,0 +1,14 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/item_data.gd" id="1_item"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"tin_bucket"
+display_name = "Tin Bucket"
+description = "water goes wherever it wants"
+model = "res://assets/models/items/survival/bucket.glb"
+world_size = 0.28
+max_stack = 1
+action = &"pour"
+lost_index = 4

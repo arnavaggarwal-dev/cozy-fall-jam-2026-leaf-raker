@@ -1,0 +1,14 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/item_data.gd" id="1_item"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"golden_chalice"
+display_name = "Golden Chalice"
+description = "makes buried stuff shimmer for a bit"
+model = "res://assets/models/items/graveyard/detail-chalice.glb"
+world_size = 0.24
+max_stack = 1
+action = &"drink_chalice"
+lost_index = 2

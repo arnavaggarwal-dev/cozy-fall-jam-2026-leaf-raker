@@ -1,0 +1,89 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_player"]
+[ext_resource type="PackedScene" path="res://assets/models/rake/garden_rake.glb" id="3_rake"]
+[ext_resource type="Shader" path="res://shaders/leaf_particles.gdshader" id="4_particles"]
+[ext_resource type="Shader" path="res://shaders/falling_leaf_draw.gdshader" id="5_leaf_draw"]
+[ext_resource type="Texture2D" path="res://assets/textures/leaves/leaf_atlas.png" id="6_atlas"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_leaf_draw"]
+shader = ExtResource("5_leaf_draw")
+shader_parameter/leaf_atlas = ExtResource("6_atlas")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_leaf"]
+material = SubResource("ShaderMaterial_leaf_draw")
+size = Vector2(1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_falling"]
+shader = ExtResource("4_particles")
+shader_parameter/falling = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_splash"]
+shader = ExtResource("4_particles")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_trail"]
+shader = ExtResource("4_particles")
+shader_parameter/spread = 1.2
+
+[node name="Player" type="Node3D"]
+script = ExtResource("1_player")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.62, 0)
+current = true
+fov = 72.0
+near = 0.03
+far = 400.0
+
+[node name="LanternHand" type="Node3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.28, -0.24, -0.6)
+visible = false
+
+[node name="Grip" type="Node3D" parent="Camera/LanternHand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0028198026, 0.01808702, 0.008056578)
+
+[node name="Light" type="OmniLight3D" parent="Camera/LanternHand/Grip"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+light_color = Color(1, 0.72, 0.4, 1)
+light_energy = 0.0
+omni_range = 9.0
+
+[node name="HeldItem" type="Node3D" parent="Camera"]
+
+[node name="Rake" type="Node3D" parent="."]
+top_level = true
+
+[node name="Model" parent="Rake" instance=ExtResource("3_rake")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04, -0.063, 0)
+
+[node name="FallingLeaves" type="GPUParticles3D" parent="."]
+top_level = true
+cast_shadow = 0
+visibility_aabb = AABB(-24, -1, -24, 48, 16, 48)
+amount = 500
+lifetime = 14.0
+preprocess = 14.0
+process_material = SubResource("ShaderMaterial_falling")
+draw_pass_1 = SubResource("PlaneMesh_leaf")
+
+[node name="Splash" type="GPUParticles3D" parent="."]
+top_level = true
+cast_shadow = 0
+visibility_aabb = AABB(-4, -1, -4, 8, 6, 8)
+emitting = false
+amount = 90
+lifetime = 2.2
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ShaderMaterial_splash")
+draw_pass_1 = SubResource("PlaneMesh_leaf")
+
+[node name="Trail" type="GPUParticles3D" parent="."]
+top_level = true
+cast_shadow = 0
+visibility_aabb = AABB(-24, -1, -24, 48, 6, 48)
+emitting = false
+amount = 160
+lifetime = 1.4
+process_material = SubResource("ShaderMaterial_trail")
+draw_pass_1 = SubResource("PlaneMesh_leaf")

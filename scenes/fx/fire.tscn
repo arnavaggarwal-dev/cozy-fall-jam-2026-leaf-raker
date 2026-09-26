@@ -1,0 +1,98 @@
+[gd_scene format=3]
+
+[ext_resource type="QuadMesh" path="res://scenes/fx/flame.tres" id="1_ernms"]
+[ext_resource type="QuadMesh" path="res://scenes/fx/smoke.tres" id="2_4doa5"]
+[ext_resource type="AudioStream" path="res://assets/audio/fire_crackle.ogg" id="3_cv4tr"]
+
+[sub_resource type="Gradient" id="Gradient_ilpno"]
+offsets = PackedFloat32Array(0, 0.15, 0.5, 1)
+colors = PackedColorArray(1, 0.75, 0.3, 0, 1, 0.62, 0.18, 0.9, 0.95, 0.32, 0.06, 0.7, 0.35, 0.05, 0.02, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_yfxnf"]
+gradient = SubResource("Gradient_ilpno")
+
+[sub_resource type="Curve" id="Curve_ryuvg"]
+_data = [Vector2(0, 0.4), 0.0, 0.0, 0, 0, Vector2(0.3, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_okv3j"]
+curve = SubResource("Curve_ryuvg")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8o8g7"]
+resource_local_to_scene = true
+emission_shape = 3
+emission_box_extents = Vector3(2.2, 2, 2.2)
+direction = Vector3(0, 1, 0)
+spread = 15.0
+initial_velocity_min = 0.8
+initial_velocity_max = 2.5
+gravity = Vector3(0, 3.5, 0)
+damping_min = 0.5
+damping_max = 1.5
+scale_min = 1.1
+scale_max = 2.4
+scale_curve = SubResource("CurveTexture_okv3j")
+color_ramp = SubResource("GradientTexture1D_yfxnf")
+
+[sub_resource type="Gradient" id="Gradient_g246h"]
+offsets = PackedFloat32Array(0, 0.12, 1)
+colors = PackedColorArray(0.16, 0.15, 0.14, 0, 0.18, 0.17, 0.16, 0.6, 0.38, 0.37, 0.36, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wqwhr"]
+gradient = SubResource("Gradient_g246h")
+
+[sub_resource type="Curve" id="Curve_1tari"]
+_data = [Vector2(0, 0.35), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_qy5hk"]
+curve = SubResource("Curve_1tari")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3kdvu"]
+resource_local_to_scene = true
+emission_shape = 3
+emission_box_extents = Vector3(1.54, 0.8, 1.54)
+direction = Vector3(0, 1, 0)
+spread = 20.0
+initial_velocity_min = 1.2
+initial_velocity_max = 2.4
+gravity = Vector3(0.4, 0.5, 0.2)
+scale_min = 2.5
+scale_max = 4.0
+scale_curve = SubResource("CurveTexture_qy5hk")
+color_ramp = SubResource("GradientTexture1D_wqwhr")
+
+[node name="Fire" type="Node3D"]
+
+[node name="Flames" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.2, 0)
+cast_shadow = 0
+emitting = false
+amount = 64
+lifetime = 1.1
+visibility_aabb = AABB(-12, -2, -12, 24, 26, 24)
+process_material = SubResource("ParticleProcessMaterial_8o8g7")
+draw_pass_1 = ExtResource("1_ernms")
+
+[node name="Smoke" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
+cast_shadow = 0
+emitting = false
+amount = 20
+lifetime = 5.0
+visibility_aabb = AABB(-12, -2, -12, 24, 26, 24)
+process_material = SubResource("ParticleProcessMaterial_3kdvu")
+draw_pass_1 = ExtResource("2_4doa5")
+
+[node name="Light" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
+visible = false
+light_color = Color(1, 0.52, 0.18, 1)
+omni_range = 12.0
+
+[node name="Sound" type="AudioStreamPlayer3D" parent="."]
+bus = &"SFX"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+stream = ExtResource("3_cv4tr")
+unit_size = 5.0
+max_distance = 45.0

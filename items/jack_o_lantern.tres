@@ -1,0 +1,14 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/item_data.gd" id="1_item"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"jack_o_lantern"
+display_name = "Jack-o'-Lantern"
+description = "off hand it and the night gets way brighter"
+model = "res://assets/models/items/graveyard/pumpkin-carved.glb"
+world_size = 0.32
+max_stack = 1
+action = &"off_hand"
+lost_index = 0

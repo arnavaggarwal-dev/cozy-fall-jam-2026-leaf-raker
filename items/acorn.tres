@@ -1,0 +1,13 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/item_data.gd" id="1_item"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"acorn"
+display_name = "Acorn"
+description = "throw it and step back"
+model = "res://assets/models/items/nature/acorn.glb"
+world_size = 0.1
+max_stack = 16
+action = &"throw"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/item_data.gd" id="1_item"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"treasure_chest"
+display_name = "Treasure Chest"
+description = "27 slots"
+model = "res://assets/models/items/survival/chest.glb"
+world_size = 0.36
+max_stack = 1
+action = &"place"
+placed_scene = "res://scenes/items/chest.tscn"
+lost_index = 3

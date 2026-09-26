@@ -1,0 +1,28 @@
+[gd_resource type="QuadMesh" format=3 uid="uid://be3nicst7owir"]
+
+[sub_resource type="Gradient" id="Gradient_d5u6x"]
+offsets = PackedFloat32Array(0, 0.45, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.6, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_oydxj"]
+gradient = SubResource("Gradient_d5u6x")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nolia"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(1.5, 1.5, 1.5, 1)
+albedo_texture = SubResource("GradientTexture2D_oydxj")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[resource]
+material = SubResource("StandardMaterial3D_nolia")
+size = Vector2(0.8, 1.3)
+center_offset = Vector3(0, 0.25, 0)

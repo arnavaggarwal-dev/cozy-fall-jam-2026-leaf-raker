@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://cy2gk2lseeoj2"
+path="res://.godot/imported/leaf_sim.glsl-04bddafed35d1d6bf30757f8992af7e2.res"
+
+[deps]
+
+source_file="res://shaders/leaf_sim.glsl"
+dest_files=["res://.godot/imported/leaf_sim.glsl-04bddafed35d1d6bf30757f8992af7e2.res"]
+
+[params]
+
