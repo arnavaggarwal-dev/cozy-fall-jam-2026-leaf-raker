@@ -44,11 +44,11 @@ func _ready() -> void:
 	_set_brightness(0.0)
 
 
-func scatter(item_seed: int) -> void:
+func scatter(item_seed: int, fresh := false) -> void:
 	_rng.seed = item_seed
 	var already := {}
 	for item in items:
-		if item["found"]:
+		if item["found"] and not fresh:
 			already[item["id"]] = true
 		elif is_instance_valid(item["node"]):
 			item["node"].queue_free()
@@ -209,7 +209,7 @@ func check() -> void:
 		if field.in_window(spot):
 			glows.append(_glow(spot, field.cover_depth(spot, burrows._acorn_radius)))
 	field.set_item_glows(glows)
-	field.set_glow_intensity(lerpf(2.25, 7.5, day_night.daylight))
+	field.set_glow_intensity(lerpf(2.25, 7.5, day_night.daylight) * (pow(0.9, App.stats.get(&"seasons", 0.0)) if App.season_fade else 1.0))
 
 
 func _glow(pos: Vector2, cover: float) -> Vector3:

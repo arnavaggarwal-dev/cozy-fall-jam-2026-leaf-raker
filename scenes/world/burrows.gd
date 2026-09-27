@@ -16,12 +16,14 @@ const STARTLE_RADIUS := 18.0
 const BAIT_RADIUS := 25.0
 const CALL_RADIUS := 15.0
 const EXTRA_CALLERS := 5
-const MAX_ARMY := 24
+const MAX_ARMY := 1000
+const GATHER_SECONDS := 6.0
 
 signal uncovered(acorn: Node3D)
 
 var burrows: Array[Dictionary] = []
 var army: Array[Squirrel] = []
+var loads: Array[Dictionary] = []
 var heading := Vector2.UP
 
 var _squirrels: Array[Squirrel] = []
@@ -106,7 +108,7 @@ func bait(spot: Vector2) -> int:
 
 func call_squirrels(entry: Dictionary) -> int:
 	var here := Forest.flat(player.global_position)
-	var wanted: int = mini(entry["count"], MAX_ARMY - army.size())
+	var wanted: int = mini(entry["count"] * carriers_for(entry["id"]), MAX_ARMY - army.size())
 	var near := _squirrels.filter(func(s: Squirrel) -> bool: return not s.loyal() and not s.is_up_a_tree() and Forest.flat(s.position).distance_to(here) < CALL_RADIUS)
 	near.sort_custom(func(a: Squirrel, b: Squirrel) -> bool: return Forest.flat(a.position).distance_squared_to(here) < Forest.flat(b.position).distance_squared_to(here))
 	near = near.slice(0, wanted)
@@ -119,6 +121,72 @@ func call_squirrels(entry: Dictionary) -> int:
 	return near.size()
 
 
+func save_squirrels() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for squirrel in (army + _squirrels.filter(func(s: Squirrel) -> bool: return s.slot < 0)).filter(func(s: Squirrel) -> bool: return not s.debug):
+		out.append({"pos": Forest.flat(squirrel.position), "yaw": squirrel._yaw, "carrying": squirrel.carrying, "follow": squirrel.slot >= 0,
+			"cargo": squirrel.cargo.get("id", &""), "group": loads.find(squirrel.cargo)})
+	return out
+
+
+func restore_squirrels(entries: Array) -> void:
+	var groups := {}
+	for entry: Dictionary in entries:
+		var squirrel := _spawn_squirrel(entry["pos"])
+		squirrel.restore(entry)
+		var group: int = entry.get("group", -1)
+		if group < 0 or squirrel.slot < 0:
+			continue
+		if groups.has(group):
+			join_load(squirrel, groups[group])
+		else:
+			groups[group] = start_load(squirrel, entry["cargo"])
+
+
+static func carriers_for(id: StringName) -> int:
+	return maxi(ItemDb.get_item(id).carriers, 1)
+
+
+func start_load(squirrel: Squirrel, id: StringName) -> Dictionary:
+	var node := ItemDb.spawn_model(id)
+	add_child(node)
+	node.position = squirrel.position
+	var cargo := {"id": id, "node": node, "carriers": [squirrel], "need": carriers_for(id), "wait": GATHER_SECONDS}
+	loads.append(cargo)
+	squirrel.cargo = cargo
+	return cargo
+
+
+func join_load(squirrel: Squirrel, cargo: Dictionary) -> void:
+	cargo["carriers"].append(squirrel)
+	squirrel.cargo = cargo
+
+
+func _carry_loads(delta: float) -> void:
+	for cargo in loads:
+		if cargo["carriers"].size() < cargo["need"]:
+			cargo["wait"] -= delta
+		var carriers: Array = cargo["carriers"]
+		var sum := Vector3.ZERO
+		for squirrel: Squirrel in carriers:
+			sum += squirrel.position
+		var node: Node3D = cargo["node"]
+		node.position = sum / carriers.size() + Vector3.UP * (0.2 if carriers.size() == 1 else 0.26)
+		node.rotation.y = (carriers[0] as Squirrel)._yaw
+
+
+func row_width() -> int:
+	return maxi(4, ceili(sqrt(army.size() / 1.5)))
+
+
+func fill_army() -> void:
+	var here := Forest.flat(player.global_position)
+	for i in MAX_ARMY - army.size():
+		var squirrel := _spawn_squirrel(here + Vector2.from_angle(randf() * TAU) * randf_range(2.0, 6.0))
+		squirrel.debug = true
+		squirrel.restore({"yaw": randf() * TAU, "carrying": false, "follow": true})
+
+
 func _spawn_squirrel(p: Vector2) -> Squirrel:
 	var squirrel: Squirrel = SQUIRREL.instantiate()
 	add_child(squirrel)
@@ -128,11 +196,12 @@ func _spawn_squirrel(p: Vector2) -> Squirrel:
 
 
 func _process(delta: float) -> void:
+	_carry_loads(delta)
 	var here := Forest.flat(player.global_position)
 	if player.velocity.length() > 0.5:
 		heading = player.velocity.normalized()
 	for k in range(_squirrels.size() - 1, -1, -1):
-		if _squirrels[k] not in army and Vector2(_squirrels[k].position.x, _squirrels[k].position.z).distance_to(here) > SQUIRREL_DESPAWN:
+		if _squirrels[k].slot < 0 and Vector2(_squirrels[k].position.x, _squirrels[k].position.z).distance_to(here) > SQUIRREL_DESPAWN:
 			_squirrels[k].queue_free()
 			_squirrels.remove_at(k)
 	for attempt in 8:
@@ -156,6 +225,7 @@ func _process(delta: float) -> void:
 				acorn.rotation.y = randf() * TAU
 				add_child(acorn)
 				uncovered.emit(acorn)
+				App.bump(&"acorns_dug")
 			burrows.remove_at(k)
 
 	var near: Array[Array] = []

@@ -7,6 +7,7 @@ extends Resource
 @export_file("*.glb") var model := ""
 @export var world_size := 0.25
 @export var max_stack := 1
+@export var carriers := 1
 @export var action := &""
 @export var effect := &""
 @export var effect_seconds := 0.0

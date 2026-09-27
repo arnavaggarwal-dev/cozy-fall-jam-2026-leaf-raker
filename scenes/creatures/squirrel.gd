@@ -16,12 +16,16 @@ const DIG_SECONDS := 1.4
 const NIBBLE_SECONDS := 2.5
 const CARRY_CHANCE := 0.094
 const GIVE_UP_SECONDS := 8.0
-const ROW := 4
 const ROW_GAP := 0.7
 const FILE_GAP := 0.6
+const NEAR_SLOTS := 200
 
 var state := State.SIT
 var carrying := false
+var cargo := {}
+var debug := false
+var slot := -1
+var _skipped := 0.0
 
 var _timer := 1.0
 var _yaw := 0.0
@@ -75,12 +79,28 @@ func fetch(entry: Dictionary) -> void:
 	_timer = 0.0
 
 
+func restore(entry: Dictionary) -> void:
+	_yaw = entry["yaw"]
+	carrying = entry["carrying"]
+	if entry["follow"]:
+		state = State.FOLLOW
+		slot = burrows.army.size()
+		burrows.army.append(self)
+		App.best(&"max_squirrels", burrows.army.size())
+
+
 func lure(spot: Vector2) -> void:
 	if not is_up_a_tree() and not loyal():
 		_run_to(spot + Vector2.from_angle(randf() * TAU) * randf_range(0.25, 0.6), State.NIBBLE, FLEE_SPEED * 0.8)
 
 
 func _process(delta: float) -> void:
+	if state == State.FOLLOW and slot >= NEAR_SLOTS:
+		_skipped += delta
+		if (Engine.get_process_frames() + slot) % 3 != 0:
+			return
+		delta = _skipped
+		_skipped = 0.0
 	_timer -= delta
 	var player := burrows.player
 	var after_crumbs := state == State.NIBBLE or (state == State.SCURRY and _then == State.NIBBLE)
@@ -168,30 +188,48 @@ func _step(goal: Vector2, speed: float, lift: float, delta: float) -> void:
 
 
 func _fetch(delta: float) -> void:
-	if _target not in burrows.pickups._pickups or _timer < -GIVE_UP_SECONDS:
+	var shared: Dictionary = _target.get("load", {})
+	if shared.is_empty() and (_target not in burrows.pickups._pickups or _timer < -GIVE_UP_SECONDS):
 		_sit_for(randf_range(0.5, 1.5))
 		return
-	var goal := Forest.nearest_copy(Forest.flat((_target["node"] as Node3D).position), _flat())
-	if _flat().distance_to(goal) > 0.25:
+	var at: Node3D = shared["node"] if not shared.is_empty() else _target["node"]
+	var goal := Forest.nearest_copy(Forest.flat(at.position), _flat())
+	if _flat().distance_to(goal) > (0.6 if not shared.is_empty() else 0.25):
 		_step(goal, FLEE_SPEED, 1.0, delta)
+		return
+	if not shared.is_empty():
+		burrows.join_load(self, shared)
 	elif burrows.pickups.take_one(_target):
-		carrying = true
-		burrows.army.append(self)
-		state = State.FOLLOW
+		if _target["id"] == &"acorn":
+			carrying = true
+		else:
+			var cargo := burrows.start_load(self, _target["id"])
+			if Burrows.carriers_for(_target["id"]) > 1:
+				_target["load"] = cargo
+	else:
+		return
+	slot = burrows.army.size()
+	burrows.army.append(self)
+	App.best(&"max_squirrels", burrows.army.size())
+	state = State.FOLLOW
 
 
 func _follow(delta: float) -> void:
-	var k := burrows.army.find(self)
+	if not cargo.is_empty() and cargo["carriers"].size() < cargo["need"] and cargo["wait"] > 0.0:
+		_idle(delta)
+		return
+	var k := slot
 	var fwd := burrows.heading
 	var me := _flat()
-	var slot := Forest.nearest_copy(Forest.flat(burrows.player.global_position), me) - fwd * (1.4 + (k / ROW) * ROW_GAP) + Vector2(-fwd.y, fwd.x) * ((k % ROW) - (ROW - 1) * 0.5) * FILE_GAP
-	var distance := me.distance_to(slot)
+	var row := burrows.row_width()
+	var spot := Forest.nearest_copy(Forest.flat(burrows.player.global_position), me) - fwd * (1.4 + (k / row) * ROW_GAP) + Vector2(-fwd.y, fwd.x) * ((k % row) - (row - 1) * 0.5) * FILE_GAP
+	var distance := me.distance_to(spot)
 	if distance > 30.0:
-		position = Vector3(slot.x, 0.0, slot.y)
+		position = Vector3(spot.x, 0.0, spot.y)
 	elif distance > 0.3:
-		_step(slot, clampf(distance * 3.0, 1.5, 10.0), 1.0, delta)
+		_step(spot, clampf(distance * 3.0, 1.5, 10.0), 1.0, delta)
 		return
-	var to_player := Forest.flat(burrows.player.global_position) - slot
+	var to_player := Forest.flat(burrows.player.global_position) - spot
 	_yaw = lerp_angle(_yaw, atan2(to_player.x, to_player.y), 1.0 - exp(-delta * 6.0))
 	_idle(delta)
 

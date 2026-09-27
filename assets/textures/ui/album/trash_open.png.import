@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqytr3sp07y0a"
-path="res://.godot/imported/sprout.png-8a15ed55715b6a41a461f357954096dc.ctex"
+uid="uid://pxyhuf5kcja2"
+path="res://.godot/imported/trash_open.png-3dd076a81d6b51ea523163be224f6b25.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/ui/sprout.png"
-dest_files=["res://.godot/imported/sprout.png-8a15ed55715b6a41a461f357954096dc.ctex"]
+source_file="res://assets/textures/ui/album/trash_open.png"
+dest_files=["res://.godot/imported/trash_open.png-3dd076a81d6b51ea523163be224f6b25.ctex"]
 
 [params]
 

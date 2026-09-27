@@ -1,0 +1,62 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/textures/ui/slot.png" id="1_slot"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/slot_hover.png" id="2_hover"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/slot_vine.png" id="3_vine"]
+
+[node name="Slot" type="TextureButton"]
+custom_minimum_size = Vector2(64, 64)
+offset_right = 64.0
+offset_bottom = 64.0
+focus_mode = 0
+button_mask = 3
+texture_normal = ExtResource("1_slot")
+texture_pressed = ExtResource("2_hover")
+texture_hover = ExtResource("2_hover")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Vine" type="TextureRect" parent="."]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 72.0
+offset_bottom = 72.0
+mouse_filter = 2
+texture = ExtResource("3_vine")
+expand_mode = 1
+
+[node name="Icon" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 58.0
+offset_bottom = 58.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Hint" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.4)
+theme_override_font_sizes/font_size = 12
+text = "Off hand"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Count" type="Label" parent="."]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 38.0
+offset_right = 62.0
+offset_bottom = 66.0
+theme_override_colors/font_outline_color = Color(0.05, 0.03, 0.02, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+vertical_alignment = 2

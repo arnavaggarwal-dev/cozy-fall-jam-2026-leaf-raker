@@ -2,6 +2,7 @@ extends Node
 
 const SAVE := "user://settings.cfg"
 const SAVE_DIR := "user://saves"
+const GOAL_DIR := "res://goals"
 const SLOTS := [1, 2, 3, 4]
 const GLYPHS := "res://assets/textures/ui/prompts/"
 const MENU := "res://scenes/ui/menu.tscn"
@@ -29,6 +30,7 @@ const KEYS := {
 	&"use": ["Use item", [KEY_C], [111]],
 	&"hotbar_prev": ["Hotbar left", [], [JOY_BUTTON_LEFT_SHOULDER]],
 	&"hotbar_next": ["Hotbar right", [], [JOY_BUTTON_RIGHT_SHOULDER]],
+	&"photo": ["Take photo", [KEY_P], [JOY_BUTTON_DPAD_UP]],
 }
 
 const PAD_NAMES := {
@@ -45,16 +47,21 @@ const PAD_NAMES := {
 signal keys_changed
 signal save_changed
 signal device_changed
+signal goal_reached(goal: Goal, tier: int)
 
 var volume := 6
 var sfx_volume := 6
 var sensitivity := 1.0
 var fullscreen := false
+var season_fade := true
 var music := 0
 var slot := 1
 var new_game := false
 var best_time := 0.0
 var using_pad := false
+var stats := {}
+var tiers := {}
+var goals: Array[Goal] = _load_goals()
 
 var _frames: Array[Image] = []
 var _frame_time := 0.0
@@ -82,6 +89,7 @@ func _ready() -> void:
 		sfx_volume = clampi(cfg.get_value("audio", "sfx_volume", sfx_volume), 0, 10)
 		sensitivity = cfg.get_value("controls", "sensitivity", sensitivity)
 		fullscreen = cfg.get_value("video", "fullscreen", fullscreen)
+		season_fade = cfg.get_value("gameplay", "season_fade", season_fade)
 		best_time = cfg.get_value("records", "best_time", best_time)
 		music = clampi(cfg.get_value("audio", "music", music), 0, tracks.size() - 1)
 	for action: StringName in KEYS:
@@ -106,7 +114,6 @@ func apply() -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen else DisplayServer.WINDOW_MODE_WINDOWED)
 
 
-# 0-10 steps, 10 is untouched full volume
 func _set_level(bus: int, steps: int) -> void:
 	AudioServer.set_bus_mute(bus, steps == 0)
 	AudioServer.set_bus_volume_db(bus, linear_to_db(steps / 10.0) if steps > 0 else -80.0)
@@ -119,6 +126,7 @@ func save() -> void:
 	cfg.set_value("audio", "sfx_volume", sfx_volume)
 	cfg.set_value("controls", "sensitivity", sensitivity)
 	cfg.set_value("video", "fullscreen", fullscreen)
+	cfg.set_value("gameplay", "season_fade", season_fade)
 	cfg.set_value("audio", "music", music)
 	cfg.set_value("records", "best_time", best_time)
 	for action: StringName in KEYS:
@@ -266,11 +274,6 @@ func _save_path(which := -1) -> String:
 	return _slot_dir(which) + "/save.dat"
 
 
-func save_megabytes(which := -1) -> float:
-	var file := FileAccess.open(_save_path(which), FileAccess.READ)
-	return file.get_length() / 1048576.0 if file else 0.0
-
-
 func write_save(data: Dictionary, info: Dictionary) -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_slot_dir()))
 	var file := FileAccess.open_compressed(_save_path(), FileAccess.WRITE, FileAccess.COMPRESSION_ZSTD)
@@ -290,7 +293,114 @@ func read_save() -> Dictionary:
 	return data if data is Dictionary else {}
 
 
+func photos(which := -1) -> PackedStringArray:
+	var dir := _photo_dir(which)
+	if not DirAccess.dir_exists_absolute(dir):
+		return PackedStringArray()
+	var out := PackedStringArray()
+	for file in DirAccess.get_files_at(dir):
+		if file.get_extension() == "png":
+			out.append(dir.path_join(file))
+	out.sort()
+	return out
+
+
+func save_photo(image: Image) -> void:
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_photo_dir()))
+	var stamp := Time.get_datetime_string_from_system().replace(":", "-")
+	image.save_png("%s/%s_%03d.png" % [_photo_dir(), stamp, Time.get_ticks_msec() % 1000])
+
+
+static func _load_goals() -> Array[Goal]:
+	var out: Array[Goal] = []
+	var files := Array(ResourceLoader.list_directory(GOAL_DIR))
+	files.sort()
+	for file: String in files:
+		if file.get_extension() == "tres":
+			out.append(load(GOAL_DIR.path_join(file)))
+	return out
+
+
+func read_progress(which := -1) -> Dictionary:
+	var cfg := ConfigFile.new()
+	cfg.load(_slot_dir(which) + "/progress.cfg")
+	return {"stats": cfg.get_value("progress", "stats", {}), "tiers": cfg.get_value("progress", "tiers", {})}
+
+
+func load_progress(fresh: bool) -> void:
+	var p := {"stats": {}, "tiers": {}} if fresh else read_progress()
+	stats = p["stats"]
+	tiers = p["tiers"]
+
+
+func save_progress() -> void:
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_slot_dir()))
+	var cfg := ConfigFile.new()
+	cfg.set_value("progress", "stats", stats)
+	cfg.set_value("progress", "tiers", tiers)
+	cfg.save(_slot_dir() + "/progress.cfg")
+
+
+func bump(stat: StringName, amount := 1.0) -> void:
+	stats[stat] = stats.get(stat, 0.0) + amount
+	_check_goals(stat)
+
+
+func best(stat: StringName, value: float) -> void:
+	if value > stats.get(stat, 0.0):
+		stats[stat] = value
+		_check_goals(stat)
+
+
+func _check_goals(stat: StringName) -> void:
+	for goal in goals:
+		if goal.stat != stat:
+			continue
+		var tier: int = tiers.get(goal.id, 0)
+		while not goal.maxed(tier) and stats[stat] >= goal.target(tier):
+			tiers[goal.id] = tier + 1
+			goal_reached.emit(goal, tier)
+			tier += 1
+
+
+func photo_caption(stamp: String) -> String:
+	var hour := stamp.substr(11, 2).to_int()
+	var month: String = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][clampi(stamp.substr(5, 2).to_int() - 1, 0, 11)]
+	return "%s %d  %d:%s %s" % [month, stamp.substr(8, 2).to_int(), (hour + 11) % 12 + 1, stamp.substr(14, 2), "pm" if hour >= 12 else "am"]
+
+
+func photo_favs(which := -1) -> PackedStringArray:
+	var cfg := ConfigFile.new()
+	cfg.load(_photo_dir(which) + "/album.cfg")
+	return cfg.get_value("album", "favs", PackedStringArray())
+
+
+func set_photo_fav(which: int, file: String, on: bool) -> void:
+	var favs := photo_favs(which)
+	if file in favs:
+		favs.remove_at(favs.find(file))
+	if on:
+		favs.append(file)
+	var cfg := ConfigFile.new()
+	cfg.set_value("album", "favs", favs)
+	cfg.save(_photo_dir(which) + "/album.cfg")
+
+
+func delete_photo(which: int, path: String) -> void:
+	set_photo_fav(which, path.get_file(), false)
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+
+
+func _photo_dir(which := -1) -> String:
+	return _slot_dir(which) + "/photos"
+
+
 func delete_save(which := -1) -> void:
+	for photo in photos(which):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(photo))
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(_photo_dir(which) + "/album.cfg"))
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(_slot_dir(which) + "/progress.cfg"))
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(_photo_dir(which)))
 	for f in ["/save.dat", "/info.cfg"]:
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(_slot_dir(which) + f))
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(_slot_dir(which)))

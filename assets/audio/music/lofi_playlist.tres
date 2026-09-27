@@ -1,0 +1,12 @@
+[gd_resource type="AudioStreamPlaylist" format=3]
+
+[ext_resource type="AudioStream" path="res://assets/audio/music/lofi_1.ogg" id="1_lofi"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/lofi_2.ogg" id="2_lofi"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/lofi_3.ogg" id="3_lofi"]
+
+[resource]
+fade_time = 4.0
+stream_count = 3
+stream_0 = ExtResource("1_lofi")
+stream_1 = ExtResource("2_lofi")
+stream_2 = ExtResource("3_lofi")

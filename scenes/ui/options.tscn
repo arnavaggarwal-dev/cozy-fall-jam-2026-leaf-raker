@@ -119,7 +119,26 @@ ticks_on_borders = true
 
 [node name="Fullscreen" type="CheckBox" parent="Pages/Settings" unique_id=1433874948]
 layout_mode = 2
+size_flags_horizontal = 4
 text = "Fullscreen"
+
+[node name="SeasonFade" type="VBoxContainer" parent="Pages/Settings"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 0
+
+[node name="Toggle" type="CheckBox" parent="Pages/Settings/SeasonFade"]
+layout_mode = 2
+size_flags_horizontal = 4
+button_pressed = true
+text = "Fading glow"
+
+[node name="Hint" type="Label" parent="Pages/Settings/SeasonFade"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.93, 0.87, 0.78, 0.55)
+theme_override_font_sizes/font_size = 16
+text = "glow dims each new season"
+horizontal_alignment = 1
 
 [node name="MusicButton" type="Button" parent="Pages/Settings" unique_id=586745525]
 layout_mode = 2
@@ -272,6 +291,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 24
 
 [node name="hotbar_next" type="Button" parent="Pages/Controls/Keys"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="photo" type="Button" parent="Pages/Controls/Keys"]
 custom_minimum_size = Vector2(360, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24

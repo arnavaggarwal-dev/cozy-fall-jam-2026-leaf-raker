@@ -181,10 +181,10 @@ func release_use() -> void:
 func drop_stack(stack: Dictionary) -> void:
 	var ahead := -player.camera.global_basis.z
 	var entry := pickups.spawn(stack["id"], stack["count"], player.camera.global_position + ahead * 0.5 + Vector3.DOWN * 0.3, ahead * 3.0 + Vector3.UP * 1.5, 1.5)
-	if stack["id"] == &"acorn":
+	if stack["id"] != &"rake":
 		var coming := burrows.call_squirrels(entry)
 		if coming > 0:
-			hud.toast("%d squirrel%s scamper over for the acorns!" % [coming, "s" if coming > 1 else ""])
+			hud.toast("%d squirrel%s scamper over for the %s!" % [coming, "s" if coming > 1 else "", ItemDb.display_name(stack["id"]).to_lower()])
 
 
 func pick_up_looked_at() -> void:
@@ -322,6 +322,7 @@ func _throw_acorn(power: float) -> bool:
 	var thrown := explosives.throw(camera.global_transform * Vector3(0.3, -0.25, -0.5), -camera.global_basis.z, Vector3(player.velocity.x, 0.0, player.velocity.y), power)
 	if thrown:
 		player.swing()
+		App.bump(&"acorns_thrown")
 	return thrown
 
 

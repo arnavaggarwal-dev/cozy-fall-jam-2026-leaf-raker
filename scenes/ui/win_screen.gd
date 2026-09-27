@@ -1,12 +1,12 @@
 class_name WinScreen
 extends CanvasLayer
 
-const SQUIRREL := preload("res://scenes/ui/squirrel_2d.tscn")
 const PRIMO_DROP := 3.0
 const STAR_GAP := 130.0
 const FOCUS := Vector3(0.0, 0.9, 0.0)
 const FOV := 38.0
 const BEAT := 2.0
+const ORBIT := Vector2(270.0, 60.0)
 
 var _squirrels: Array[Dictionary] = []
 var _t := 0.0
@@ -33,7 +33,8 @@ var _next_firework := 0
 @onready var primo: Node3D = $Root/Stage/Viewport/Primo
 @onready var camera: Camera3D = $Root/Stage/Viewport/Camera
 @onready var stars: Control = $Root/Panel/Stars
-@onready var orbits: Array = [$Root/OrbitBack, $Root/OrbitFront]
+@onready var orbits: Array[Node2D] = [$Root/OrbitBack, $Root/OrbitFront]
+@onready var icons: Array[Node] = $Root/OrbitBack.get_children()
 @onready var best_time: Label = $Root/Panel/BestTime
 @onready var sfx: AudioStreamPlaybackPolyphonic = ($Sfx as AudioStreamPlayer).get_stream_playback()
 @onready var stage: Control = $Root/Stage
@@ -57,12 +58,8 @@ func celebrate(found: int, time := 0.0, new_best := false) -> void:
 	_count = -1
 	_firework = 1.0
 	$Root/Twinkle.emitting = true
-	for node: Squirrel2D in stampede.get_children():
-		_add_squirrel(node)
 	_launches.resize(found)
 	_launches.fill(INF)
-	for orbit in orbits:
-		orbit.launches = _launches
 	best_time.text = ("new best time  %s" % App.format_time(time)) if new_best else ("time  %s     best  %s" % [App.format_time(time), App.format_time(App.best_time)])
 	best_time.pivot_offset = best_time.size * 0.5
 	(best_time.material as ShaderMaterial).set_shader_parameter("width", best_time.size.x)
@@ -176,7 +173,7 @@ func _process(delta: float) -> void:
 		s["x"] += s["v"] * real
 		node.position = Vector2(s["x"], s["y"] - absf(sin(_t * s["hop"] + s["phase"])) * s["jump"])
 		if node.position.x < -200.0 or node.position.x > root.size.x + 200.0:
-			node.queue_free()
+			node.visible = false
 			_squirrels.remove_at(k)
 
 
@@ -199,31 +196,44 @@ func _tick(value: float, found: int) -> void:
 func _update_orbit() -> void:
 	var rect := stage.get_global_rect()
 	var center := Vector2(rect.get_center().x, rect.position.y + rect.size.y * 0.52)
-	for orbit in orbits:
-		orbit.center = center
-		orbit.from = counter.get_global_rect().get_center()
-		orbit.time = _t
-		orbit.queue_redraw()
+	var from := counter.get_global_rect().get_center()
+	for i in icons.size():
+		var icon: Sprite2D = icons[i]
+		var angle := _t * 0.9 + i * TAU / icons.size()
+		var depth := sin(angle)
+		var k := clampf((_t - _launches[i]) / 0.55, 0.0, 1.0) if i < _launches.size() else 0.0
+		icon.visible = k > 0.0
+		if not icon.visible:
+			continue
+		var layer := orbits[1] if depth > 0.0 else orbits[0]
+		if icon.get_parent() != layer:
+			icon.reparent(layer, false)
+		var spot := center + Vector2(cos(angle) * ORBIT.x, depth * ORBIT.y + sin(_t * 3.0 + i) * 10.0)
+		icon.position = from.lerp(spot, ease(k, 0.4)) + Vector2(0.0, -sin(k * PI) * 160.0)
+		icon.rotation = sin(_t * 2.0 + i) * 0.2
+		icon.scale = Vector2.ONE * (0.62 + 0.16 * depth) * minf(k * 3.0, 1.0)
+		icon.modulate = Color.WHITE.darkened(0.35 * maxf(-depth, 0.0))
 
 
 func _tween() -> Tween:
 	return create_tween().set_ignore_time_scale(true)
 
 
-func _add_squirrel(node: Squirrel2D = null) -> void:
-	var fresh := node == null
-	if fresh:
-		node = SQUIRREL.instantiate()
-		node.mode = Squirrel2D.Mode.PARTY if randf() < 0.35 else Squirrel2D.Mode.RUN
-		var big := randf_range(2.5, 6.0)
-		node.scale = Vector2(big * (1.0 if randf() < 0.5 else -1.0), big)
-		stampede.add_child(node)
+func _add_squirrel() -> void:
+	var idle := stampede.get_children().filter(func(n: Squirrel2D) -> bool: return not n.visible)
+	if idle.is_empty():
+		return
+	var node: Squirrel2D = idle.pick_random()
+	node.visible = true
+	node.mode = Squirrel2D.Mode.PARTY if randf() < 0.35 else Squirrel2D.Mode.RUN
+	var big := randf_range(2.5, 6.0)
+	node.scale = Vector2(big * (1.0 if randf() < 0.5 else -1.0), big)
 	node.speed_scale = randf_range(0.9, 1.6)
 	var right := node.scale.x > 0.0
 	_squirrels.append({
 		"node": node,
-		"x": (-150.0 if right else root.size.x + 150.0) if fresh else node.position.x,
-		"y": randf_range(root.size.y * 0.9, root.size.y - 5.0) if fresh else node.position.y,
+		"x": -150.0 if right else root.size.x + 150.0,
+		"y": randf_range(root.size.y * 0.9, root.size.y - 5.0),
 		"v": randf_range(500.0, 1150.0) * (1.0 if right else -1.0),
 		"hop": randf_range(8.0, 14.0),
 		"phase": randf() * TAU,
@@ -240,6 +250,6 @@ func _close() -> void:
 	$Root/Twinkle.emitting = false
 	_launches.clear()
 	for s in _squirrels:
-		(s["node"] as Node).queue_free()
+		(s["node"] as CanvasItem).visible = false
 	_squirrels.clear()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED

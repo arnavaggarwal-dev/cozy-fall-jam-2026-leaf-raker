@@ -9,6 +9,7 @@ const TOILET_HOME := Vector2(-30.0, -26.0)
 const RUSTLE_DB := -1.41
 
 @export var spawn_near_toilet := false
+@export var spawn_with_squirrels := false
 @export var spawn_with_leaf_blower := false
 @export var spawn_near_bucket := false
 @export var spawn_with_acorns := false
@@ -20,6 +21,7 @@ const RUSTLE_DB := -1.41
 @export var foliage_sound: AudioStream
 @export var use_sound: AudioStream
 @export var grab_sound: AudioStream
+@export var photo_sound: AudioStream
 
 var play_time := 0.0
 
@@ -31,6 +33,7 @@ var _band := 0.0
 var _crackle := 0.0
 var _ruffle_cooldown := 0.0
 var _was_in_foliage := false
+var _snapping := false
 
 @onready var forest: Forest = %Forest
 @onready var field: LeafWorld = %LeafWorld
@@ -41,18 +44,20 @@ var _was_in_foliage := false
 @onready var item_user: ItemUser = %ItemUser
 @onready var hud: Hud = %Hud
 @onready var toilet: Node3D = %Toilet
-@onready var toilet_model: Node3D = $Toilet/Model
-@onready var sfx: AudioStreamPlaybackPolyphonic = ($Audio/Sfx as AudioStreamPlayer).get_stream_playback()
+@onready var sfx: AudioStreamPlaybackPolyphonic = ($Sfx as AudioStreamPlayer).get_stream_playback()
 @onready var day_night: DayNight = %DayNight
-@onready var ambience: AudioStreamPlayer = $Audio/Ambience
-@onready var ambience_night: AudioStreamPlayer = $Audio/AmbienceNight
+@onready var ambience: AudioStreamPlayer = $Ambience
+@onready var ambience_night: AudioStreamPlayer = $AmbienceNight
 
 
 func _ready() -> void:
-	_rustle = ($Audio/Rustle as AudioStreamPlayer).get_stream_playback()
+	_rustle = ($Rustle as AudioStreamPlayer).get_stream_playback()
 	App.play_music()
 	var tree_clearings: Array[Vector3] = [Vector3(0.0, 0.0, 4.0), Vector3(TOILET_HOME.x, TOILET_HOME.y, 4.5)]
 	var save := {} if App.new_game or not App.has_save() else App.read_save()
+	App.load_progress(save.is_empty())
+	App.goal_reached.connect(_on_goal)
+	%WinScreen.get_node("Root/Panel/Buttons/KeepRaking").pressed.connect(_new_season)
 	App.new_game = false
 	forest.build(FOREST_SEED, tree_clearings)
 	var leaf_clearings: Array[Vector3] = [Vector3(TOILET_HOME.x, TOILET_HOME.y, 1.4)]
@@ -78,6 +83,8 @@ func _ready() -> void:
 		item_user.inventory.add_to_pockets(&"leaf_blower", 1)
 	if spawn_with_acorns:
 		item_user.inventory.add_to_pockets(&"acorn", DEBUG_ACORNS)
+	if spawn_with_squirrels:
+		burrows.fill_army()
 	hud.bind_inventory(item_user.inventory)
 	hud.set_items(lost_items.names())
 	for item in lost_items.items:
@@ -93,7 +100,7 @@ func _process(delta: float) -> void:
 	var spot := Forest.nearest_copy(TOILET_HOME, Forest.flat(player.position))
 	toilet.position = Vector3(spot.x, 0.0, spot.y)
 	var to_viewer := player.camera.global_position - toilet.global_position
-	toilet_model.rotation.y = lerp_angle(toilet_model.rotation.y, atan2(to_viewer.x, to_viewer.z), 0.1)
+	toilet.rotation.y = lerp_angle(toilet.rotation.y, atan2(to_viewer.x, to_viewer.z), 0.1)
 
 	var activity := player.rake_activity
 	for i in _rustle.get_frames_available():
@@ -124,6 +131,8 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"fresh_leaves") and not hud.is_inventory_open():
 		reset_leaves(randi())
+	elif event.is_action_pressed(&"photo") and not hud.is_inventory_open():
+		take_photo()
 
 
 func reset_leaves(new_seed: int) -> void:
@@ -136,6 +145,21 @@ func reset_leaves(new_seed: int) -> void:
 			hud.mark_found(item["index"], false)
 
 
+func take_photo() -> void:
+	if _snapping:
+		return
+	_snapping = true
+	hud.visible = false
+	await RenderingServer.frame_post_draw
+	var image := get_viewport().get_texture().get_image()
+	App.save_photo(image)
+	App.bump(&"photos")
+	hud.visible = true
+	hud.flash_photo(image)
+	play_sfx(photo_sound, -4.0, 1.3)
+	_snapping = false
+
+
 func _crunch(strength: float) -> void:
 	play_sfx(foliage_sound, linear_to_db(clampf(0.4 + strength * 0.6, 0.05, 1.0)) + 2.0 + RUSTLE_DB, 0.8)
 
@@ -144,12 +168,17 @@ func play_sfx(stream: AudioStream, volume_db := 0.0, pitch := 1.0) -> void:
 	sfx.play_stream(stream, 0.0, volume_db, pitch)
 
 
+func _exit_tree() -> void:
+	App.save_progress()
+
+
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		save_game()
 
 
 func save_game() -> void:
+	App.save_progress()
 	var placed: Array[Dictionary] = []
 	for node: Node3D in $Placed.get_children():
 		if not node.is_queued_for_deletion():
@@ -162,6 +191,7 @@ func save_game() -> void:
 		"leaves": field.save_state(),
 		"items": lost_items.save_state(),
 		"burrows": burrows.burrows,
+		"squirrels": burrows.save_squirrels(),
 		"charred": forest._charred.keys(),
 		"player": [player.position, player.yaw, player.pitch],
 		"time": day_night.time_of_day,
@@ -182,6 +212,7 @@ func _load_game(save: Dictionary) -> void:
 	player.teleport(Vector2(at.x, at.z), save["player"][1])
 	player.position.y = at.y
 	player.pitch = save["player"][2]
+	burrows.restore_squirrels(save.get("squirrels", []))
 	day_night.time_of_day = save["time"]
 	play_time = save.get("played", 0.0)
 	for index: int in save["charred"]:
@@ -206,11 +237,31 @@ func _load_game(save: Dictionary) -> void:
 
 func _on_lost_item_found(id: StringName, node: Node3D) -> void:
 	hud.mark_found(lost_items.get_item(id)["index"])
+	App.bump(&"lost_found")
 	play_sfx(found_sound, -4.0)
 	item_user.on_lost_item_found(id, node)
 	if lost_items.found_count == lost_items.items.size():
 		_win()
 	save_game()
+
+
+func _new_season() -> void:
+	App.bump(&"seasons")
+	var new_seed := randi()
+	field.reset_leaves(new_seed)
+	forest.settle_on(field)
+	lost_items.scatter(new_seed, true)
+	hud.set_items(lost_items.names())
+	play_time = 0.0
+	hud.toast("Season %d. The leaves fell again and everything got lost." % (int(App.stats.get(&"seasons", 0.0)) + 1))
+	save_game()
+
+
+func _on_goal(goal: Goal, tier: int) -> void:
+	var count := goal.reward_for(tier)
+	item_user.inventory.add_to_pockets(goal.reward, count)
+	hud.toast("Goal done: %s   +%d %s" % [goal.text(tier), count, ItemDb.display_name(goal.reward).to_lower() + ("s" if count > 1 else "")])
+	play_sfx(found_sound, -8.0, 1.4)
 
 
 func _win() -> void:

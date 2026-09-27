@@ -1,7 +1,7 @@
 class_name DayNight
 extends Node
 
-const DAY_SECONDS := 480.0
+const DAY_SECONDS := 300.0
 const LIGHT_REFRESH_SECONDS := 0.25
 const SKY_REFRESH_SECONDS := 2.0
 

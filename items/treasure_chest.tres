@@ -10,6 +10,7 @@ description = "27 slots"
 model = "res://assets/models/items/survival/chest.glb"
 world_size = 0.36
 max_stack = 1
+carriers = 3
 action = &"place"
 placed_scene = "res://scenes/items/chest.tscn"
 lost_index = 3

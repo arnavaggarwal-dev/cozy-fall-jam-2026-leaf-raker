@@ -2,9 +2,17 @@
 
 [ext_resource type="AudioStream" path="res://assets/audio/music/harvest_season.ogg" id="1_harvest"]
 [ext_resource type="AudioStream" path="res://assets/audio/music/another_august.ogg" id="2_august"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/old_tower_inn.ogg" id="3_tower"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/amber_forest.ogg" id="4_amber"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/autumn_guitar.ogg" id="5_autumn"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/november_snow.ogg" id="6_november"]
 
 [resource]
 fade_time = 4.0
-stream_count = 2
+stream_count = 6
 stream_0 = ExtResource("1_harvest")
 stream_1 = ExtResource("2_august")
+stream_2 = ExtResource("3_tower")
+stream_3 = ExtResource("4_amber")
+stream_4 = ExtResource("5_autumn")
+stream_5 = ExtResource("6_november")

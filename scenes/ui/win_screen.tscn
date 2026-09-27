@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scenes/ui/win_screen.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/ui/squirrel_2d.tscn" id="16_squirrel"]
 [ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="2_theme"]
 [ext_resource type="Texture2D" path="res://assets/textures/ui/fall_leaf.png" id="3_leaf"]
 [ext_resource type="AudioStream" path="res://assets/audio/confirmation_002.ogg" id="4_chime"]
@@ -11,7 +12,21 @@
 [ext_resource type="AudioStream" path="res://assets/audio/pluck_001.ogg" id="10_tick"]
 [ext_resource type="AudioStream" path="res://assets/audio/drop_002.ogg" id="11_stamp"]
 [ext_resource type="Texture2D" path="res://assets/textures/ui/gold_leaf.png" id="13_star"]
-[ext_resource type="Script" path="res://scenes/ui/orbit_ring.gd" id="15_orbit"]
+[ext_resource type="Texture2D" path="res://assets/textures/icons/jack_o_lantern.png" id="60_jack_o_lantern"]
+[ext_resource type="Texture2D" path="res://assets/textures/icons/old_lantern.png" id="60_old_lantern"]
+[ext_resource type="Texture2D" path="res://assets/textures/icons/golden_chalice.png" id="60_golden_chalice"]
+[ext_resource type="Texture2D" path="res://assets/textures/icons/treasure_chest.png" id="60_treasure_chest"]
+[ext_resource type="Texture2D" path="res://assets/textures/icons/tin_bucket.png" id="60_tin_bucket"]
+[ext_resource type="Texture2D" path="res://assets/textures/icons/message_bottle.png" id="60_message_bottle"]
+[ext_resource type="Texture2D" path="res://assets/textures/icons/forgotten_present.png" id="60_forgotten_present"]
+[ext_resource type="Texture2D" path="res://assets/textures/icons/gingerbread_buddy.png" id="60_gingerbread_buddy"]
+[ext_resource type="Texture2D" path="res://assets/textures/icons/missing_sock.png" id="60_missing_sock"]
+[ext_resource type="Texture2D" path="res://assets/textures/icons/leaf_blower.png" id="60_leaf_blower"]
+[ext_resource type="Texture2D" path="res://assets/textures/icons/shiny_apple.png" id="60_shiny_apple"]
+[ext_resource type="Texture2D" path="res://assets/textures/icons/cookie.png" id="60_cookie"]
+[ext_resource type="Texture2D" path="res://assets/textures/icons/sprinkle_donut.png" id="60_sprinkle_donut"]
+[ext_resource type="Texture2D" path="res://assets/textures/icons/coffee_mug.png" id="60_coffee_mug"]
+[ext_resource type="Texture2D" path="res://assets/textures/icons/toadstool.png" id="60_toadstool"]
 [ext_resource type="AudioStream" path="res://assets/audio/win_fanfare.ogg" id="14_fanfare"]
 [ext_resource type="Texture2D" path="res://assets/textures/ui/frame.png" id="20_frame"]
 [ext_resource type="Texture2D" path="res://assets/textures/ui/corner_leaf.png" id="21_leaf"]
@@ -157,8 +172,81 @@ stretch = true
 
 [node name="OrbitBack" type="Node2D" parent="Root"]
 z_index = -1
-script = ExtResource("15_orbit")
-front = false
+
+[node name="jack_o_lantern" type="Sprite2D" parent="Root/OrbitBack"]
+position = Vector2(718, 546)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("60_jack_o_lantern")
+
+[node name="old_lantern" type="Sprite2D" parent="Root/OrbitBack"]
+position = Vector2(695, 570)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("60_old_lantern")
+
+[node name="golden_chalice" type="Sprite2D" parent="Root/OrbitBack"]
+position = Vector2(629, 591)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("60_golden_chalice")
+
+[node name="treasure_chest" type="Sprite2D" parent="Root/OrbitBack"]
+position = Vector2(531, 603)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("60_treasure_chest")
+
+[node name="tin_bucket" type="Sprite2D" parent="Root/OrbitBack"]
+position = Vector2(420, 606)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("60_tin_bucket")
+
+[node name="message_bottle" type="Sprite2D" parent="Root/OrbitBack"]
+position = Vector2(313, 598)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("60_message_bottle")
+
+[node name="forgotten_present" type="Sprite2D" parent="Root/OrbitBack"]
+position = Vector2(230, 581)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("60_forgotten_present")
+
+[node name="gingerbread_buddy" type="Sprite2D" parent="Root/OrbitBack"]
+position = Vector2(184, 558)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("60_gingerbread_buddy")
+
+[node name="missing_sock" type="Sprite2D" parent="Root/OrbitBack"]
+position = Vector2(184, 534)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("60_missing_sock")
+
+[node name="leaf_blower" type="Sprite2D" parent="Root/OrbitBack"]
+position = Vector2(230, 511)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("60_leaf_blower")
+
+[node name="shiny_apple" type="Sprite2D" parent="Root/OrbitBack"]
+position = Vector2(313, 494)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("60_shiny_apple")
+
+[node name="cookie" type="Sprite2D" parent="Root/OrbitBack"]
+position = Vector2(420, 486)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("60_cookie")
+
+[node name="sprinkle_donut" type="Sprite2D" parent="Root/OrbitBack"]
+position = Vector2(531, 489)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("60_sprinkle_donut")
+
+[node name="coffee_mug" type="Sprite2D" parent="Root/OrbitBack"]
+position = Vector2(629, 501)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("60_coffee_mug")
+
+[node name="toadstool" type="Sprite2D" parent="Root/OrbitBack"]
+position = Vector2(695, 522)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("60_toadstool")
 
 [node name="Viewport" type="SubViewport" parent="Root/Stage"]
 own_world_3d = true
@@ -222,9 +310,128 @@ angle_max = 360.0
 
 [node name="OrbitFront" type="Node2D" parent="Root"]
 z_index = 1
-script = ExtResource("15_orbit")
 
 [node name="Stampede" type="Node2D" parent="Root"]
+
+[node name="Squirrel1" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(80, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel2" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(142, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel3" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(204, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel4" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(266, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel5" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(328, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel6" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(390, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel7" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(452, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel8" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(514, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel9" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(576, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel10" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(638, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel11" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(700, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel12" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(762, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel13" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(824, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel14" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(886, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel15" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(948, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel16" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(1010, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel17" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(1072, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel18" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(1134, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel19" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(1196, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel20" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(1258, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel21" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(1320, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel22" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(1382, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel23" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(1444, 1000)
+scale = Vector2(4, 4)
+
+[node name="Squirrel24" parent="Root/Stampede" instance=ExtResource("16_squirrel")]
+visible = false
+position = Vector2(1506, 1000)
+scale = Vector2(4, 4)
 
 [node name="Firework1" type="CPUParticles2D" parent="Root"]
 process_mode = 3

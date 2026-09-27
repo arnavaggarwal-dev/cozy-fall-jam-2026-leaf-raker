@@ -24,6 +24,11 @@ func _ready() -> void:
 	full.toggled.connect(func(on: bool) -> void:
 		App.fullscreen = on
 		App.save())
+	var fade: CheckBox = $Pages/Settings/SeasonFade/Toggle
+	fade.button_pressed = App.season_fade
+	fade.toggled.connect(func(on: bool) -> void:
+		App.season_fade = on
+		App.save())
 	music_button.pressed.connect(func() -> void:
 		App.next_music()
 		_refresh_music())

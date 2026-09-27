@@ -1,6 +1,5 @@
 shader_type canvas_item;
 
-// 0 -> 1 leaves fall in and cover the screen, 1 -> 2 a gust blows them away
 uniform float progress = 0.0;
 uniform sampler2D leaf : source_color, filter_nearest;
 uniform float cell = 64.0;

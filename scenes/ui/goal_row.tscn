@@ -1,0 +1,112 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/textures/ui/frame_card.png" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/twig.png" id="2_twig"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/vine_fill.png" id="3_vine"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/acorn_icon.png" id="4_acorn"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_card"]
+content_margin_left = 26.0
+content_margin_top = 14.0
+content_margin_right = 26.0
+content_margin_bottom = 14.0
+texture = ExtResource("1_card")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_twig"]
+texture = ExtResource("2_twig")
+texture_margin_left = 12.0
+texture_margin_right = 12.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vine"]
+texture = ExtResource("3_vine")
+texture_margin_left = 12.0
+texture_margin_right = 12.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="GoalRow" type="PanelContainer"]
+custom_minimum_size = Vector2(860, 0)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_card")
+
+[node name="Box" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 24
+
+[node name="Info" type="VBoxContainer" parent="Box"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Box/Info"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Rake 200 m of leaves"
+
+[node name="Progress" type="HBoxContainer" parent="Box/Info"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 14
+
+[node name="Bar" type="ProgressBar" parent="Box/Info/Progress"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxTexture_twig")
+theme_override_styles/fill = SubResource("StyleBoxTexture_vine")
+max_value = 1.0
+value = 0.4
+show_percentage = false
+
+[node name="Count" type="Label" parent="Box/Info/Progress"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.93, 0.87, 0.78, 0.7)
+theme_override_font_sizes/font_size = 20
+text = "80 / 200"
+horizontal_alignment = 2
+
+[node name="Side" type="VBoxContainer" parent="Box"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="Tier" type="Label" parent="Box/Side"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.45, 1)
+theme_override_font_sizes/font_size = 24
+text = "tier 2"
+horizontal_alignment = 1
+
+[node name="Reward" type="HBoxContainer" parent="Box/Side"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 6
+
+[node name="Icon" type="TextureRect" parent="Box/Side/Reward"]
+texture_filter = 1
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_acorn")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Count" type="Label" parent="Box/Side/Reward"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "+6"

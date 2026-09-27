@@ -1,0 +1,116 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/textures/ui/album/polaroid.png" id="1_polaroid"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/album/tape.png" id="2_tape"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/album/heart.png" id="3_heart"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/album/trash.png" id="4_trash"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/album/trash_open.png" id="5_trash_open"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui/album/share.png" id="6_share"]
+
+[node name="Polaroid" type="Control"]
+custom_minimum_size = Vector2(350, 434)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 350.0
+offset_bottom = 434.0
+pivot_offset = Vector2(175, 217)
+mouse_filter = 2
+
+[node name="Photo" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 37.0
+offset_right = 324.0
+offset_bottom = 340.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Frame" type="TextureButton" parent="."]
+action_mode = 0
+layout_mode = 0
+offset_right = 350.0
+offset_bottom = 434.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("1_polaroid")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="TapeLeft" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.95)
+layout_mode = 0
+offset_left = 40.0
+offset_top = -36.0
+offset_right = 106.0
+offset_bottom = 62.0
+mouse_filter = 2
+texture = ExtResource("2_tape")
+expand_mode = 1
+
+[node name="TapeRight" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.95)
+layout_mode = 0
+offset_left = 244.0
+offset_top = -36.0
+offset_right = 310.0
+offset_bottom = 62.0
+mouse_filter = 2
+texture = ExtResource("2_tape")
+expand_mode = 1
+flip_h = true
+
+[node name="Caption" type="Label" parent="."]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 350.0
+offset_right = 300.0
+offset_bottom = 406.0
+theme_override_colors/font_color = Color(0.3, 0.2, 0.12, 1)
+theme_override_font_sizes/font_size = 28
+text = "Sep 26  3:12 pm"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Heart" type="TextureButton" parent="."]
+action_mode = 0
+texture_filter = 1
+modulate = Color(1, 1, 1, 0.35)
+layout_mode = 0
+offset_left = 12.0
+offset_top = 360.0
+offset_right = 48.0
+offset_bottom = 396.0
+pivot_offset = Vector2(18, 18)
+mouse_default_cursor_shape = 2
+toggle_mode = true
+texture_normal = ExtResource("3_heart")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Trash" type="TextureButton" parent="."]
+action_mode = 0
+modulate = Color(0.3, 0.2, 0.12, 0.6)
+layout_mode = 0
+offset_left = 302.0
+offset_top = 362.0
+offset_right = 334.0
+offset_bottom = 394.0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("4_trash")
+texture_hover = ExtResource("5_trash_open")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Share" type="TextureButton" parent="."]
+modulate = Color(0.3, 0.2, 0.12, 0.6)
+layout_mode = 0
+offset_left = 54.0
+offset_top = 362.0
+offset_right = 86.0
+offset_bottom = 394.0
+mouse_default_cursor_shape = 2
+action_mode = 0
+texture_normal = ExtResource("6_share")
+ignore_texture_size = true
+stretch_mode = 0

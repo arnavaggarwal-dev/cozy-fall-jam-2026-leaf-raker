@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Goal" format=3]
+
+[ext_resource type="Script" path="res://scripts/goal.gd" id="1_goal"]
+
+[resource]
+script = ExtResource("1_goal")
+id = &"squirrels"
+title = "Lead {n} squirrels at once"
+stat = &"max_squirrels"
+start = 10.0
+growth = 2.0
+reward = &"acorn"
+reward_count = 5
+max_target = 1000.0

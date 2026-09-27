@@ -59,12 +59,8 @@
 [ext_resource type="Texture2D" uid="uid://dtyc5dw7wwoay" path="res://assets/textures/leaves/leaf_atlas.png" id="93_leaf_atlas"]
 [ext_resource type="AudioStream" uid="uid://b42qxajexmvuq" path="res://assets/audio/leaf_blower.wav" id="94_blower"]
 [ext_resource type="QuadMesh" uid="uid://ca8g6vlf5k5k7" path="res://scenes/items/pickup_glow.tres" id="95_glow"]
+[ext_resource type="AudioStream" uid="uid://c3r0bbs303nx" path="res://assets/audio/maximize_006.ogg" id="96_shutter"]
 [ext_resource type="ArrayMesh" path="res://assets/models/props/ground/sprout_mesh.res" id="96_sprout"]
-
-[sub_resource type="MultiMesh" id="MultiMesh_sprouts"]
-transform_format = 1
-instance_count = 40
-mesh = ExtResource("96_sprout")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_step"]
 playback_mode = 1
@@ -225,6 +221,12 @@ instance_count = 6
 mesh = SubResource("ArrayMesh_wing")
 buffer = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
+[sub_resource type="MultiMesh" id="MultiMesh_sprouts"]
+transform_format = 1
+instance_count = 40
+mesh = ExtResource("96_sprout")
+buffer = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
 [sub_resource type="Gradient" id="Gradient_shimmer"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
@@ -295,6 +297,7 @@ mulch_sound = SubResource("AudioStreamRandomizer_mulch")
 foliage_sound = SubResource("AudioStreamRandomizer_foliage")
 use_sound = ExtResource("18_pluck")
 grab_sound = ExtResource("19_drop")
+photo_sound = ExtResource("96_shutter")
 
 [node name="DayNight" type="Node" parent="." unique_id=787910682]
 unique_name_in_owner = true
@@ -425,18 +428,16 @@ multimesh = SubResource("MultiMesh_butterflies")
 unique_name_in_owner = true
 script = ExtResource("11_burrows")
 
-[node name="Sprouts" type="MultiMeshInstance3D" parent="Burrows"]
+[node name="Sprouts" type="MultiMeshInstance3D" parent="Burrows" unique_id=1290267430]
 multimesh = SubResource("MultiMesh_sprouts")
 
 [node name="Toilet" type="Node3D" parent="." unique_id=761641786]
 unique_name_in_owner = true
 
-[node name="Model" type="Node3D" parent="Toilet" unique_id=1016641242]
-
-[node name="Skibidi" parent="Toilet/Model" unique_id=1293946357 instance=ExtResource("12_skibidi")]
+[node name="Skibidi" parent="Toilet" unique_id=1293946357 instance=ExtResource("12_skibidi")]
 transform = Transform3D(0.43662438, 0, 0, 0, 0.43662438, 0, 0, 0, 0.43662438, 0, 0, 0)
 
-[node name="AnimationPlayer" parent="Toilet/Model/Skibidi" index="1" unique_id=1038368051]
+[node name="AnimationPlayer" parent="Toilet/Skibidi" index="1" unique_id=1038368051]
 autoplay = &"dance"
 
 [node name="Shimmers" type="MultiMeshInstance3D" parent="." unique_id=981547082]
@@ -461,11 +462,6 @@ _water_material = SubResource("StandardMaterial3D_water")
 cast_shadow = 0
 custom_aabb = AABB(-1000, -10, -1000, 2000, 20, 2000)
 mesh = SubResource("ImmediateMesh_water")
-
-[node name="Prewarm" type="Timer" parent="Explosives" unique_id=2055082136]
-wait_time = 0.5
-one_shot = true
-autostart = true
 
 [node name="Player" parent="." unique_id=403781237 instance=ExtResource("16_player")]
 unique_name_in_owner = true
@@ -494,26 +490,24 @@ draw_pass_1 = SubResource("SphereMesh_splash")
 [node name="Hud" parent="." unique_id=592765197 instance=ExtResource("20_hud")]
 unique_name_in_owner = true
 
-[node name="Audio" type="Node" parent="." unique_id=817138303]
-
-[node name="Rustle" type="AudioStreamPlayer" parent="Audio" unique_id=1466300758]
+[node name="Rustle" type="AudioStreamPlayer" parent="." unique_id=1466300758]
 stream = SubResource("AudioStreamGenerator_rustle")
 volume_db = -4.41
 autoplay = true
 bus = &"SFX"
 
-[node name="Sfx" type="AudioStreamPlayer" parent="Audio" unique_id=1330065474]
+[node name="Sfx" type="AudioStreamPlayer" parent="." unique_id=1330065474]
 stream = SubResource("AudioStreamPolyphonic_sfx")
 autoplay = true
 bus = &"SFX"
 
-[node name="Ambience" type="AudioStreamPlayer" parent="Audio" unique_id=1757859507]
+[node name="Ambience" type="AudioStreamPlayer" parent="." unique_id=1757859507]
 stream = ExtResource("71_snd")
 volume_db = -2.0
 autoplay = true
 bus = &"Ambience"
 
-[node name="AmbienceNight" type="AudioStreamPlayer" parent="Audio" unique_id=173994930]
+[node name="AmbienceNight" type="AudioStreamPlayer" parent="." unique_id=173994930]
 stream = ExtResource("72_snd")
 volume_db = -80.0
 autoplay = true
@@ -528,11 +522,10 @@ visible = false
 [connection signal="uncovered" from="Burrows" to="." method="_on_acorn_uncovered"]
 [connection signal="collected" from="Pickups" to="." method="_on_collected"]
 [connection signal="exploded" from="Explosives" to="." method="_on_exploded"]
-[connection signal="timeout" from="Explosives/Prewarm" to="Explosives" method="_prewarm"]
 [connection signal="dashed" from="Player" to="." method="_on_player_dashed"]
 [connection signal="landed" from="Player" to="." method="_on_player_landed"]
 [connection signal="stepped" from="Player" to="." method="_on_step"]
 [connection signal="drop_requested" from="Hud" to="ItemUser" method="drop_stack"]
 [connection signal="opened" from="Pause" to="." method="save_game"]
 
-[editable path="Toilet/Model/Skibidi"]
+[editable path="Toilet/Skibidi"]

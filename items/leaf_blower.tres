@@ -10,5 +10,6 @@ description = "hold click to blow the leaves away"
 model = "res://assets/models/items/tools/leaf_blower.glb"
 world_size = 0.45
 max_stack = 1
+carriers = 2
 action = &"blow"
 lost_index = 9

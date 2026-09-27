@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://86o71b0oxe4i"]
 
 [ext_resource type="Script" uid="uid://df6efyjpgh2d4" path="res://scenes/ui/hud.gd" id="1_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/polaroid.tscn" id="14_polaroid"]
 [ext_resource type="Texture2D" path="res://assets/textures/ui/acorn_icon.png" id="4_acorn"]
 [ext_resource type="Script" uid="uid://dbsas3500k1qv" path="res://scenes/ui/slot_view.gd" id="5_slot"]
+[ext_resource type="PackedScene" path="res://scenes/ui/slot.tscn" id="5_slot_scene"]
 [ext_resource type="Texture2D" path="res://assets/textures/ui/frame_small.png" id="6_frame"]
 [ext_resource type="Texture2D" path="res://assets/textures/ui/frame_card.png" id="7_card"]
 [ext_resource type="Texture2D" path="res://assets/textures/ui/corner_leaf.png" id="8_leaf"]
@@ -287,7 +289,7 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 18
 horizontal_alignment = 1
 
-[node name="Hotbar" type="Control" parent="Root" unique_id=1253064230]
+[node name="Hotbar" type="HBoxContainer" parent="Root" unique_id=1253064230]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -297,15 +299,60 @@ anchor_bottom = 1.0
 offset_left = -350.0
 offset_top = -94.0
 offset_right = 350.0
-offset_bottom = -18.0
+offset_bottom = -30.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
 script = ExtResource("5_slot")
 indices = PackedInt32Array(36, 0, 1, 2, 3, 4, 5, 6, 7, 8)
-columns = 10
-lead_gap = 20.0
 show_selection = true
+
+[node name="Slot0" parent="Root/Hotbar" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spacer" type="Control" parent="Root/Hotbar"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Slot1" parent="Root/Hotbar" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Slot2" parent="Root/Hotbar" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Slot3" parent="Root/Hotbar" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Slot4" parent="Root/Hotbar" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Slot5" parent="Root/Hotbar" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Slot6" parent="Root/Hotbar" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Slot7" parent="Root/Hotbar" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Slot8" parent="Root/Hotbar" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Slot9" parent="Root/Hotbar" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+mouse_filter = 2
 
 [node name="Acorns" type="PanelContainer" parent="Root" unique_id=1633105523]
 layout_mode = 1
@@ -466,20 +513,106 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.78, 0.35, 1)
 text = "Treasure Chest"
 
-[node name="ChestGrid" type="Control" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=610025676]
+[node name="ChestGrid" type="GridContainer" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=610025676]
 layout_mode = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 9
 script = ExtResource("5_slot")
 indices = PackedInt32Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26)
+
+[node name="Slot0" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot1" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot2" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot3" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot4" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot5" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot6" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot7" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot8" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot9" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot10" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot11" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot12" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot13" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot14" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot15" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot16" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot17" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot18" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot19" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot20" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot21" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot22" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot23" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot24" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot25" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot26" parent="Root/InventoryScreen/Center/Panel/Box/ChestGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
 
 [node name="Equipment" type="HBoxContainer" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=860580603]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="OffHand" type="Control" parent="Root/InventoryScreen/Center/Panel/Box/Equipment" unique_id=1587240771]
+[node name="OffHand" type="HBoxContainer" parent="Root/InventoryScreen/Center/Panel/Box/Equipment" unique_id=1587240771]
 layout_mode = 2
 script = ExtResource("5_slot")
 indices = PackedInt32Array(36)
-columns = 1
+
+[node name="Slot0" parent="Root/InventoryScreen/Center/Panel/Box/Equipment/OffHand" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
 
 [node name="Hint" type="Label" parent="Root/InventoryScreen/Center/Panel/Box/Equipment" unique_id=1432236322]
 layout_mode = 2
@@ -489,20 +622,134 @@ theme_override_font_sizes/font_size = 14
 text = "Anything in your off hand floats beside you. A lantern lights the way."
 vertical_alignment = 1
 
-[node name="MainGrid" type="Control" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=781104386]
+[node name="MainGrid" type="GridContainer" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=781104386]
 layout_mode = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 9
 script = ExtResource("5_slot")
 indices = PackedInt32Array(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35)
+
+[node name="Slot0" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot1" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot2" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot3" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot4" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot5" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot6" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot7" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot8" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot9" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot10" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot11" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot12" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot13" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot14" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot15" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot16" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot17" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot18" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot19" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot20" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot21" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot22" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot23" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot24" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot25" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot26" parent="Root/InventoryScreen/Center/Panel/Box/MainGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
 
 [node name="Gap" type="Control" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=884653973]
 custom_minimum_size = Vector2(0, 6)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="HotbarGrid" type="Control" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=837398120]
+[node name="HotbarGrid" type="GridContainer" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=837398120]
 layout_mode = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 9
 script = ExtResource("5_slot")
 indices = PackedInt32Array(0, 1, 2, 3, 4, 5, 6, 7, 8)
+
+[node name="Slot0" parent="Root/InventoryScreen/Center/Panel/Box/HotbarGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot1" parent="Root/InventoryScreen/Center/Panel/Box/HotbarGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot2" parent="Root/InventoryScreen/Center/Panel/Box/HotbarGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot3" parent="Root/InventoryScreen/Center/Panel/Box/HotbarGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot4" parent="Root/InventoryScreen/Center/Panel/Box/HotbarGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot5" parent="Root/InventoryScreen/Center/Panel/Box/HotbarGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot6" parent="Root/InventoryScreen/Center/Panel/Box/HotbarGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot7" parent="Root/InventoryScreen/Center/Panel/Box/HotbarGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
+
+[node name="Slot8" parent="Root/InventoryScreen/Center/Panel/Box/HotbarGrid" instance=ExtResource("5_slot_scene")]
+layout_mode = 2
 
 [node name="Help" type="Label" parent="Root/InventoryScreen/Center/Panel/Box" unique_id=1223792275]
 layout_mode = 2
@@ -533,15 +780,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 14
 autowrap_mode = 3
 
-[node name="CursorLayer" type="Control" parent="Root/InventoryScreen" unique_id=1440108416]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Held" parent="Root/InventoryScreen" instance=ExtResource("5_slot_scene")]
+visible = false
+layout_mode = 0
 mouse_filter = 2
-
+texture_normal = null
+texture_pressed = null
+texture_hover = null
 [node name="Corners" type="Control" parent="Root/Stats"]
 layout_mode = 2
 mouse_filter = 2
@@ -882,5 +1127,44 @@ expand_mode = 1
 flip_h = true
 flip_v = true
 
+[node name="Snapshot" parent="Root" instance=ExtResource("14_polaroid")]
+visible = false
+layout_mode = 0
+offset_left = 625.0
+offset_top = 233.0
+offset_right = 975.0
+offset_bottom = 667.0
+scale = Vector2(0.75, 0.75)
+
+[node name="Frame" parent="Root/Snapshot" index="1"]
+mouse_filter = 2
+
+[node name="Heart" parent="Root/Snapshot" index="5"]
+visible = false
+
+[node name="Trash" parent="Root/Snapshot" index="6"]
+visible = false
+
+[node name="Share" parent="Root/Snapshot" index="7"]
+visible = false
+
+[node name="Shot" type="TextureRect" parent="Root"]
+visible = false
+layout_mode = 0
+offset_right = 1600.0
+offset_bottom = 900.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+
+[node name="PhotoFlash" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 0.96, 0.88, 0)
 [connection signal="gui_input" from="Root/InventoryScreen/Dim" to="." method="_on_dim_input"]
-[connection signal="draw" from="Root/InventoryScreen/CursorLayer" to="." method="_draw_cursor"]

@@ -18,11 +18,11 @@ var _chest: Inventory
 var _acorns := -1
 var won := false
 var _cursor := {}
+var _snap_tween: Tween
 var _views: Array[SlotView] = []
 
 @onready var stats_text: Label = $Root/Stats/Box/Text
 @onready var effects_text: RichTextLabel = $Root/Stats/Box/Effects
-@onready var list: VBoxContainer = $Root/LostThings/List
 @onready var list_title: Label = $Root/LostThings/List/Title
 @onready var rows_text: RichTextLabel = $Root/LostThings/List/Rows
 @onready var prompt_label: RichTextLabel = $Root/Prompt
@@ -38,8 +38,11 @@ var _views: Array[SlotView] = []
 @onready var inventory_screen: Control = $Root/InventoryScreen
 @onready var inventory_box: VBoxContainer = $Root/InventoryScreen/Center/Panel/Box
 @onready var tooltip: PanelContainer = $Root/InventoryScreen/Tooltip
-@onready var cursor_layer: Control = $Root/InventoryScreen/CursorLayer
+@onready var held: Control = $Root/InventoryScreen/Held
 @onready var chest_grid: SlotView = $Root/InventoryScreen/Center/Panel/Box/ChestGrid
+@onready var photo_flash: ColorRect = $Root/PhotoFlash
+@onready var snapshot: Control = $Root/Snapshot
+@onready var shot: TextureRect = $Root/Shot
 @onready var day_night: DayNight = %DayNight
 
 
@@ -67,7 +70,7 @@ func _show_controls() -> void:
 			g.call(&"look_up"), g.call(&"look_left"), g.call(&"look_down"), g.call(&"look_right"), g.call(&"dash"), g.call(&"jump")])
 		lines.append("%s / %s use item   %s-%s %s hotbar   %s inventory" % [g.call(&"use"), App.glyph_image("key_%d" % App._keys(&"use")[0]) if not App._keys(&"use").is_empty() else "",
 			App.glyph_image("key_49"), App.glyph_image("key_57"), App.glyph_image("mouse_wheel"), g.call(&"inventory")])
-	lines.append("%s drop   %s pick up   %s fresh leaves   %s pause" % [g.call(&"drop"), g.call(&"pick_up"), g.call(&"fresh_leaves"), g.call(&"pause")])
+	lines.append("%s drop   %s pick up   %s fresh leaves   %s photo   %s pause" % [g.call(&"drop"), g.call(&"pick_up"), g.call(&"fresh_leaves"), g.call(&"photo"), g.call(&"pause")])
 	$Root/Controls.text = "\n".join(lines)
 
 
@@ -82,7 +85,7 @@ func _process(delta: float) -> void:
 	if inventory_screen.visible:
 		tooltip.position = (inventory_screen.get_local_mouse_position() + Vector2(18.0, 18.0)).clamp(Vector2.ZERO, inventory_screen.size - tooltip.size)
 		tooltip.visible = tooltip.visible and _cursor.is_empty()
-		cursor_layer.queue_redraw()
+		held.position = inventory_screen.get_local_mouse_position() - held.size * 0.5
 
 
 func bind_inventory(pockets: Inventory) -> void:
@@ -156,6 +159,42 @@ func toast(text: String) -> void:
 	_toast_tween = _flash_label(toast_label, _toast_tween, 2.2, 0.8)
 
 
+func flash_photo(image: Image) -> void:
+	photo_flash.color.a = 0.7
+	create_tween().tween_property(photo_flash, "color:a", 0.0, 0.4)
+	toast("Snap! Saved to the album.")
+	if _snap_tween:
+		_snap_tween.kill()
+	var texture := ImageTexture.create_from_image(image)
+	var photo: TextureRect = snapshot.get_node("Photo")
+	photo.texture = texture
+	snapshot.get_node("Caption").text = App.photo_caption(Time.get_datetime_string_from_system().replace(":", "-"))
+	var area: Vector2 = $Root.size
+	var home := (area - snapshot.size) * 0.5
+	var fit := snapshot.pivot_offset + (photo.position - snapshot.pivot_offset) * 0.75
+	var side := -1.0 if randf() < 0.5 else 1.0
+	shot.texture = texture
+	shot.position = Vector2.ZERO
+	shot.size = area
+	shot.visible = true
+	snapshot.visible = true
+	snapshot.position = home
+	snapshot.scale = Vector2.ONE * 0.75
+	snapshot.rotation = 0.0
+	snapshot.modulate.a = 0.0
+	_snap_tween = create_tween()
+	_snap_tween.tween_property(shot, "position", home + fit, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	_snap_tween.parallel().tween_property(shot, "size", photo.size * 0.75, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	_snap_tween.parallel().tween_property(snapshot, "modulate:a", 1.0, 0.25).set_delay(0.25)
+	_snap_tween.tween_callback(shot.hide)
+	_snap_tween.tween_property(snapshot, "rotation", -side * 0.06, 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_snap_tween.tween_interval(0.6)
+	_snap_tween.tween_property(snapshot, "position:x", home.x + side * (area.x * 0.5 + 450.0), 0.6).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_snap_tween.parallel().tween_property(snapshot, "position:y", home.y + area.y * 0.5, 0.6).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+	_snap_tween.parallel().tween_property(snapshot, "rotation", side * 1.3, 0.6).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_snap_tween.tween_callback(snapshot.hide)
+
+
 func show_item_name(text: String) -> void:
 	item_name.text = text
 	_name_tween = _flash_label(item_name, _name_tween, 1.5, 0.6)
@@ -210,7 +249,7 @@ func _flash_label(label: Label, old: Tween, hold: float, fade: float) -> Tween:
 
 
 func _refresh_hotbar() -> void:
-	hotbar.queue_redraw()
+	hotbar.refresh()
 
 
 func _update_acorns() -> void:
@@ -299,12 +338,8 @@ func _show_tooltip(inventory: Inventory, index: int) -> void:
 	tooltip.visible = true
 
 
-func _draw_cursor() -> void:
-	if not _cursor.is_empty():
-		SlotView.draw_item(cursor_layer, _cursor, Rect2(cursor_layer.get_local_mouse_position() - Vector2(26.0, 26.0), Vector2(52.0, 52.0)))
-
-
 func _redraw_inventory() -> void:
 	for view in _views:
-		view.queue_redraw()
-	cursor_layer.queue_redraw()
+		view.refresh()
+	held.visible = not _cursor.is_empty()
+	SlotView.show_stack(held, _cursor)

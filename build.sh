@@ -1,6 +1,4 @@
 #!/bin/sh
-# linux twin of build.bat. needs godot + the matching export templates,
-# zip, and optionally wine + inno setup for the windows installers.
 set -u
 cd "$(dirname "$0")"
 
@@ -9,7 +7,6 @@ if ! $GODOT --version >/dev/null 2>&1; then
 	echo "Godot not found. Set it first:  GODOT=/path/to/godot ./build.sh"
 	exit 1
 fi
-# iscc needs wine, skipped quietly when either is missing
 ISCC="${ISCC:-$HOME/.wine/drive_c/Program Files (x86)/Inno Setup 6/ISCC.exe}"
 
 OUT=builds
@@ -28,7 +25,7 @@ echo
 echo "[0/4] Importing assets...   ($(date +%T))"
 $GODOT --headless --path . --import 2>&1 | grep -E "%|ERROR"
 
-export_preset() { # step, preset name, output path
+export_preset() {
 	echo
 	echo "[$1/4] Exporting $2   ($(date +%T))"
 	mkdir -p "$(dirname "$3")"
@@ -41,10 +38,9 @@ export_preset() { # step, preset name, output path
 	fi
 }
 
-pack() { # zip path, then files to put in it
+pack() {
 	zip="$1"
 	shift
-	# -j flattens, exports live in $WORK but downloads should unzip flat
 	if zip -j -q -9 "$zip" "$@"; then
 		echo "      ${zip##*/} OK"
 	else
@@ -53,7 +49,7 @@ pack() { # zip path, then files to put in it
 	fi
 }
 
-installer() { # arch, work subdir
+installer() {
 	setup="$OUT/LeafRaker-windows-$1-installer.exe"
 	echo "      building ${setup##*/}   ($(date +%T))"
 	wine "$ISCC" /Qp "/DArch=$1" "/DSrcDir=..\\$(echo "$WORK/$2" | tr / \\\\)" "packaging\\installer.iss"

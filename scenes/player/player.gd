@@ -222,6 +222,8 @@ func _process(delta: float) -> void:
 
 	var p := Forest.flat(position)
 	var travel := velocity * delta
+	if travel != Vector2.ZERO:
+		App.bump(&"meters_walked", travel.length())
 	var steps := maxi(ceili(travel.length() / MOVE_STEP), 1)
 	for step in steps:
 		p = forest.push_out(p + travel / steps, BODY_RADIUS, position.y)
@@ -295,6 +297,8 @@ func _process(delta: float) -> void:
 	var tines_y := maxf(surface - TINE_DEPTH, 0.0)
 	var on_ground := (wants_down and head_height <= tines_y + 0.25 and feet <= 0.05) or (dragging and feet <= 0.3)
 	var scraped := field.apply_rake(prev, head_pos, _head_dir, p) if on_ground else 0.0
+	if scraped > 0.0:
+		App.bump(&"meters_raked", prev.distance_to(head_pos))
 	if dragging:
 		head_height = tines_y
 	else:

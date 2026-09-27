@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Goal" format=3]
+
+[ext_resource type="Script" path="res://scripts/goal.gd" id="1_goal"]
+
+[resource]
+script = ExtResource("1_goal")
+id = &"seasons"
+title = "Finish {n} seasons"
+stat = &"seasons"
+start = 1.0
+growth = 2.0
+reward = &"acorn"
+reward_count = 15

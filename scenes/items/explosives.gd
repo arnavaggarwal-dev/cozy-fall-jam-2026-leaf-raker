@@ -54,6 +54,10 @@ var _streams: Array[Dictionary] = []
 @onready var day_night: DayNight = %DayNight
 
 
+func _ready() -> void:
+	get_tree().create_timer(0.5, false).timeout.connect(_prewarm)
+
+
 func _prewarm() -> void:
 	var spot := player.camera.global_position - player.camera.global_basis.z * 4.0 + Vector3.DOWN * 4.0
 	var bang: Node3D = EXPLOSION.instantiate()
@@ -159,6 +163,7 @@ func _explode(where: Vector3) -> void:
 		var index: int = tree["index"]
 		if not _burning.has(index) and not forest.is_charred(index):
 			_burning[index] = true
+			App.bump(&"trees_burned")
 			_fires.append(_make_fire(index, tree["height"], -flat.distance_to(tree["position"]) * SPREAD_SECONDS_PER_METER))
 	var effect: Node3D = EXPLOSION.instantiate()
 	add_child(effect)
