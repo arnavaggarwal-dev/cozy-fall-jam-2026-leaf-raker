@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://bt5scuvoveugy" path="res://scripts/app.gd" id="1_app"]
 [ext_resource type="AudioStream" path="res://assets/audio/music/cozy_playlist.tres" id="2_cozy"]
 [ext_resource type="AudioStream" path="res://assets/audio/music/lofi_playlist.tres" id="3_lofi"]
-[ext_resource type="AudioStream" uid="uid://coy24qtsefsde" path="res://assets/audio/music/kabonk_sparkle.mp3" id="6_kabonk"]
 [ext_resource type="Shader" uid="uid://bii2o525elai3" path="res://shaders/leaf_wipe.gdshader" id="4_wipe"]
 [ext_resource type="Texture2D" uid="uid://ddhu7rdgwm5vp" path="res://assets/textures/ui/corner_leaf.png" id="5_leaf"]
 
@@ -24,11 +23,6 @@ script = ExtResource("1_app")
 
 [node name="Cozy mix" type="AudioStreamPlayer" parent="Music" unique_id=1473663800]
 stream = ExtResource("2_cozy")
-volume_db = -2.42
-bus = &"Music"
-
-[node name="Kabonk Sparkle" type="AudioStreamPlayer" parent="Music"]
-stream = ExtResource("6_kabonk")
 volume_db = -2.42
 bus = &"Music"
 

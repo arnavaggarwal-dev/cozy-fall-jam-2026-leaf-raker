@@ -5,11 +5,13 @@ const FOREST_SEED := 4242
 const LEAF_SEED := 20261014
 const BURROW_SEED := 99
 const DEBUG_ACORNS := 50
+const DEBUG_BUDDIES := 8
 const TOILET_HOME := Vector2(-30.0, -26.0)
 const RUSTLE_DB := -1.41
 
 @export var spawn_near_toilet := false
 @export var spawn_with_squirrels := false
+@export var spawn_with_buddies := false
 @export var spawn_with_leaf_blower := false
 @export var spawn_near_bucket := false
 @export var spawn_with_acorns := false
@@ -85,6 +87,14 @@ func _ready() -> void:
 		item_user.inventory.add_to_pockets(&"acorn", DEBUG_ACORNS)
 	if spawn_with_squirrels:
 		burrows.fill_army()
+	if spawn_with_buddies:
+		var buddy: PackedScene = load(ItemDb.get_item(&"gingerbread_buddy").placed_scene)
+		for i in DEBUG_BUDDIES:
+			var node: Node3D = buddy.instantiate()
+			node.set_meta("debug", true)
+			var spot := Forest.flat(player.position) + Vector2.from_angle(i * TAU / DEBUG_BUDDIES) * 2.0
+			node.position = Vector3(spot.x, 0.0, spot.y)
+			$Placed.add_child(node)
 	hud.bind_inventory(item_user.inventory)
 	hud.set_items(lost_items.names())
 	for item in lost_items.items:
@@ -92,6 +102,8 @@ func _ready() -> void:
 			hud.mark_found(item["index"], false)
 	hud.won = lost_items.found_count == lost_items.items.size()
 	lost_items.found.connect(_on_lost_item_found)
+	if not save.is_empty() and hud.won:
+		_new_season.call_deferred()
 	if instant_win:
 		get_tree().create_timer(1.5).timeout.connect(_win)
 
@@ -181,7 +193,7 @@ func save_game() -> void:
 	App.save_progress()
 	var placed: Array[Dictionary] = []
 	for node: Node3D in $Placed.get_children():
-		if not node.is_queued_for_deletion():
+		if not node.is_queued_for_deletion() and not node.has_meta("debug"):
 			placed.append({"id": node.get("item_id"), "position": node.position, "rotation": node.rotation.y, "storage": node.storage.slots if node.storage else []})
 	var dropped: Array[Dictionary] = []
 	for entry in pickups._pickups:
@@ -247,6 +259,7 @@ func _on_lost_item_found(id: StringName, node: Node3D) -> void:
 
 func _new_season() -> void:
 	App.bump(&"seasons")
+	item_user.bottle_target = &""
 	var new_seed := randi()
 	field.reset_leaves(new_seed)
 	forest.settle_on(field)

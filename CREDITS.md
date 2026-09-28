@@ -23,13 +23,13 @@ All third-party assets were downloaded from their original sources and are free 
 | Amber Forest (piano version) by TAD (`assets/audio/music/amber_forest.ogg`, loudness matched, converted to Ogg) | Cozy background music | [OpenGameArt](https://opengameart.org/content/amber-forest) | [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | Autumn by MAOU (`assets/audio/music/autumn_guitar.ogg`, loudness matched, converted to Ogg) | Cozy background music | [OpenGameArt](https://opengameart.org/content/autumn-0) | [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | November Snow by cynicmusic (`assets/audio/music/november_snow.ogg`, loudness matched, converted to Ogg) | Cozy background music | [OpenGameArt](https://opengameart.org/content/november-snow) | CC0 1.0 |
-| Kabonk Sparkle and three lofi beats by Wesley Wong (`assets/audio/music/kabonk_sparkle.mp3`, `lofi_1.ogg`–`lofi_3.ogg`) | Kabonk Sparkle and Lofi mix background music (Options > Music) | Provided by the artist | Used with permission |
+| Three lofi beats by Wesley Wong (`assets/audio/music/lofi_1.ogg`–`lofi_3.ogg`) | Lofi mix background music (Options > Music) | Provided by the artist | Used with permission |
 | Interface Sounds | Found / win chimes | [Kenney](https://kenney.nl/assets/interface-sounds) | CC0 1.0 |
 | Chunky Explosion by Joth (`assets/audio/explosion.ogg`, trimmed and converted to Ogg) | Acorn blasts | [OpenGameArt](https://opengameart.org/content/chunky-explosion) | CC0 1.0 |
 | Fire Crackling by AntumDeluge (`assets/audio/fire_crackle.ogg`, converted to mono Ogg) | Burning trees | [OpenGameArt](https://opengameart.org/content/fire-crackling) | CC0 1.0 |
 | Squirrel by Poly by Google (`assets/models/creatures/squirrel.glb`) | Squirrels | [Poly Pizza](https://poly.pizza/m/caxos24uWC9) | CC-BY 3.0 |
 | Acorn by Poly by Google (`assets/models/items/nature/acorn.glb`) | Acorns | [Poly Pizza](https://poly.pizza/m/cBjPyNgvJ3Q) | CC-BY 3.0 |
-| Nature Kit (`assets/models/props/ground/sprout.glb`) | Sprouts over burrowed acorns | [Kenney](https://kenney.nl/assets/nature-kit) | CC0 1.0 |
+| Nature Kit (`assets/models/props/ground/sprout_mesh.res`, the sprout model) | Sprouts over burrowed acorns | [Kenney](https://kenney.nl/assets/nature-kit) | CC0 1.0 |
 | 2D Pixel Art Squirrel Sprites by Elthen (`assets/textures/ui/squirrel.png`) | The squirrel in the pause menu and the win screen stampede | [itch.io](https://elthen.itch.io/2d-pixel-art-squirrel-sprites) | Free for commercial use ([Elthen's license](https://www.patreon.com/posts/27430241)) |
 | Windy Leaves Particle FX by EdgeLoopRepeat (`assets/textures/ui/fall_leaf.png`) | Cursor, menu leaves, button ornaments, win confetti | [itch.io](https://rs-pixel-store.itch.io/falling-leaf-fx) | Free for use in projects, no redistribution |
 | Fantasy UI Borders (`assets/textures/ui/frame*.png`, recoloured, with pixel leaves and vine curls added) | Menu, save card and HUD frames | [Kenney](https://kenney.nl/assets/fantasy-ui-borders) | CC0 1.0 |
@@ -43,7 +43,7 @@ All third-party assets were downloaded from their original sources and are free 
 | Paper Crumple SFX by medicinestorm (`assets/audio/paper_crumple.ogg`, trimmed and converted to Ogg) | Crumpling a photo when it is thrown away | [OpenGameArt](https://opengameart.org/content/paper-crumple-sfx-sound-effect) | CC-BY 4.0 |
 | Paper Crumple (Houdini VAT) by nagasawa, ITEM Inc. (`assets/models/props/paper/paper_crumple_mesh.res`, the baked Vellum crumple converted to a Godot mesh with shape keys) | The photo crumpling into a paper ball when it is thrown away | [item-develop/paper-crumple-demo](https://github.com/item-develop/paper-crumple-demo) | MIT |
 
-The leaf rustle sound, the light butterflies, the fire, smoke and explosion effects, and the squirrels' animation are generated at runtime. Item icons were rendered from the models. The leaf blower model (`assets/models/items/tools/leaf_blower.glb`) was built for this project and its whirr (`assets/audio/leaf_blower.wav`) was synthesized. `assets/textures/ground/leaf_litter.png` was generated from the ambientCG leaf scans.
+The leaf rustle sound, the light butterflies, the fire, smoke and explosion effects, and the squirrels' animation are made procedurally in the game. Item icons were rendered from the models. The leaf blower model (`assets/models/items/tools/leaf_blower.glb`) and its whirr (`assets/audio/leaf_blower.wav`) were made for this project. `assets/textures/ground/leaf_litter.png` was made from the ambientCG leaf scans.
 
 
 ## Playtesting

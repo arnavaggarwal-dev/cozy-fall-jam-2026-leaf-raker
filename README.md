@@ -1,42 +1,42 @@
 # Leaf Raker
 
-A cozy little autumn game made for a fall game jam. Fifteen things got lost under the leaves in this forest. Grab your rake and find them all.
+A cozy autumn game about an endless forest buried under millions of leaves. Fifteen things got lost somewhere beneath them. Grab your rake, look for warm light glowing up through the leaves, and dig them out.
 
-Look for warm light glowing up through the leaf litter, rake it away, and see what you dig up. Squirrels bury acorns everywhere (look for the little sprouts), and a thrown acorn will blow a stubborn pile sky high. Every lost thing does something, so check the tooltips in your inventory.
+- **Rake, dash and dig** through a forest that never ends.
+- **Squirrels** bury acorns everywhere. Drop acorns (or anything else) and they come running, then follow you in a troop of up to 1000, carrying your stuff.
+- **Acorn bombs** blow stubborn piles sky high, and sometimes set trees on fire.
+- **Photo album**: snap photos (P) and flip through them as polaroids. Favourite, share, or crumple and toss them.
+- **Endless seasons**: find all fifteen and the leaves fall again. Each season the glow gets a little dimmer.
+- **Goals** tier up forever and pay out in acorns.
 
 ## Controls
 
-| | |
-|---|---|
-| Move | WASD |
-| Look | Mouse or arrow keys |
-| Jump / Dash | Space / Shift |
-| Use item | Left click or C |
-| Hotbar | 1-9 or mouse wheel |
-| Inventory | E or Tab |
-| Drop / Pick up | Q (Ctrl+Q for the whole stack) / F |
-| Fresh leaves | R |
-| Pause | Esc |
-| Fullscreen | F11 |
+| | Keyboard / mouse | Controller |
+|---|---|---|
+| Move / look | WASD / mouse or arrow keys | Sticks |
+| Jump / dash | Space / Shift | A / B |
+| Use item | Left click or C | RT |
+| Hotbar | 1-9 or mouse wheel | LB / RB |
+| Inventory | E or Tab | Y |
+| Drop / pick up | Q / F | D-pad down / X |
+| Photo | P | D-pad up |
+| Fresh leaves | R | |
+| Pause / fullscreen | Esc / F11 | Start |
 
-Controllers work too, laid out like most first person games: sticks walk and look, A jumps, B dashes, RT uses your item, X picks up, Y opens the inventory, LB/RB flick through the hotbar and d-pad down drops. In the inventory the left stick moves the cursor, A grabs, X splits a stack and RT quick moves. Everything except the number keys can be rebound in Options, keyboard and controller separately.
+Everything can be rebound in Options.
 
 ## Playing
 
-**Windows:** run `LeafRaker-windows-x64-installer.exe` (or the arm64 one), or unzip `LeafRaker-windows-x64-portable.zip` and run `Forrest.exe` if you'd rather not install anything. Windows might say it "protected your PC". Click *More info*, then *Run anyway*.
+- **Windows:** run the installer, or unzip the portable zip and run `Forrest.exe`. If Windows says it "protected your PC", click *More info*, then *Run anyway*.
+- **Linux:** unzip `LeafRaker-linux.zip` and run `sh install.sh` to add it to your app menu. `uninstall.sh` removes it.
+- **macOS:** unzip `LeafRaker-macos.zip`, then right-click the app and choose *Open* the first time.
 
-**Linux:** unzip `LeafRaker-linux.zip` and run `sh install.sh`. It adds Leaf Raker to your app menu. `uninstall.sh` removes it again.
+Four save slots, saved automatically.
 
-**macOS:** unzip `LeafRaker-macos.zip`, then right-click the app and choose *Open* the first time.
+## Building
 
-There are four save slots. Progress saves on its own when you pause, find something, or quit, and you can clear a slot from the save screen. Your best time and settings are shared across all slots.
-
-## Building it yourself
-
-You need Godot 4.7.1 with the export templates installed. Open the project, or run `build.bat` (or `build.sh` on Linux/macOS) to export Windows, Linux and macOS in one go. If [Inno Setup](https://jrsoftware.org/isdl.php) is installed it builds the Windows installers too. The finished downloads land in `builds/`, and the installer and Linux scripts live in `packaging/`.
+Needs Godot 4.7.2 with export templates. Run `build.sh` (or `build.bat` on Windows) to export every platform into `builds/`. With [Inno Setup](https://jrsoftware.org/isdl.php) installed it makes the Windows installers too.
 
 ## Credits
 
-Models, sounds, music and fonts come from some very generous people. See [CREDITS.md](CREDITS.md) for the full list.
-
-Made by Lazilydev.
+Made by Lazilydev, playtested by Wesley Wong. Art, sound and music come from some very generous people, listed in [CREDITS.md](CREDITS.md).

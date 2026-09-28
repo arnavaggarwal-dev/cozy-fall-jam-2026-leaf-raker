@@ -2,6 +2,7 @@ extends Node3D
 
 const BOUNCE_RADIUS := 0.85
 const LAUNCH_SPEED := 12.0
+const BUDDY_SPACING := 0.8
 const BUDDY_SPEED := 4.2
 const BUDDY_FETCH_RANGE := 12.0
 const BUDDY_FOLLOW_DISTANCE := 1.6
@@ -95,14 +96,24 @@ func _fetch(home: Vector2, delta: float) -> void:
 	else:
 		_target = Vector2.INF
 		_digging = 0.0
+		var claimed: Array = get_parent().get_children().filter(func(n: Node) -> bool: return n != self and n.get("item_id") == &"gingerbread_buddy" and n.get("_target") != Vector2.INF).map(func(n: Node) -> Vector2: return n.get("_target"))
 		for spot in burrows.points_near(home, BUDDY_FETCH_RANGE):
+			if claimed.any(func(c: Vector2) -> bool: return c.distance_to(spot) < 0.1):
+				continue
 			if _target == Vector2.INF or spot.distance_to(me) < _target.distance_to(me):
 				_target = spot
 		if _target == Vector2.INF and me.distance_to(home) > BUDDY_FOLLOW_DISTANCE:
 			goal = home + (me - home).normalized() * BUDDY_FOLLOW_DISTANCE
 
 	var step := (goal - me).limit_length(BUDDY_SPEED * delta)
-	me = game.forest.push_out(me + step, 0.12)
+	me += step
+	for other in get_parent().get_children():
+		if other == self or other.get("item_id") != &"gingerbread_buddy":
+			continue
+		var away: Vector2 = me - Forest.nearest_copy(Forest.flat((other as Node3D).position), me)
+		if away.length() < BUDDY_SPACING:
+			me += (away.normalized() if away.length() > 0.001 else Vector2.from_angle(randf() * TAU)) * (BUDDY_SPACING - away.length()) * 0.5
+	me = game.forest.push_out(me, 0.12)
 	position = Vector3(me.x, game.field.sample_depth(me), me.y)
 	if step.length() > 0.002:
 		rotation.y = atan2(step.x, step.y)
