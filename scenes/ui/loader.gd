@@ -1,7 +1,6 @@
 extends TextureRect
 
-## Caps how fast the glow spreads, so a near-instant load still reads as leaves lighting up.
-const MAX_RATE := 0.7
+const MAX_RATE := 0.5
 
 var _lit := 0.0
 var _menu: PackedScene
