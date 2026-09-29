@@ -11,9 +11,12 @@ config_version=5
 [application]
 
 config/name="Cozy Fall Jam Forrest"
-run/main_scene="res://scenes/ui/menu.tscn"
+run/main_scene="res://scenes/ui/loader.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0.596, 0.302, 0.125, 1)
+boot_splash/stretch_mode=4
+boot_splash/image="res://assets/textures/ui/splash.png"
 
 [autoload]
 
@@ -23,6 +26,7 @@ App="*res://scenes/app.tscn"
 
 window/size/viewport_width=1600
 window/size/viewport_height=900
+window/size/mode=4
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 

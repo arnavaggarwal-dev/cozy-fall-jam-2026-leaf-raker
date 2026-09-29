@@ -52,7 +52,7 @@ signal goal_reached(goal: Goal, tier: int)
 var volume := 6
 var sfx_volume := 6
 var sensitivity := 1.0
-var fullscreen := false
+var fullscreen := true
 var season_fade := true
 var music := 0
 var slot := 1
@@ -82,7 +82,8 @@ func _ready() -> void:
 		frame.resize(size * CURSOR_SCALE, size * CURSOR_SCALE, Image.INTERPOLATE_NEAREST)
 		_frames.append(frame)
 	_hotspot = Vector2.ONE * size * CURSOR_SCALE * 0.5
-	_reveal()
+	# The loader scene is the first thing on screen and hands off to the menu through go(), which plays the leaf wipe.
+	wipe.visible = false
 	var cfg := ConfigFile.new()
 	if cfg.load(SAVE) == OK:
 		volume = clampi(cfg.get_value("audio", "volume", volume), 0, 10)
@@ -111,7 +112,7 @@ func apply() -> void:
 	_set_level(0, volume)
 	_set_level(AudioServer.get_bus_index(&"SFX"), sfx_volume)
 	if fullscreen != (DisplayServer.window_get_mode() >= DisplayServer.WINDOW_MODE_FULLSCREEN):
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen else DisplayServer.WINDOW_MODE_WINDOWED)
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN if fullscreen else DisplayServer.WINDOW_MODE_WINDOWED)
 
 
 func _set_level(bus: int, steps: int) -> void:

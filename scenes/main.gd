@@ -2,7 +2,6 @@ class_name Main
 extends Node3D
 
 const FOREST_SEED := 4242
-const LEAF_SEED := 20261014
 const BURROW_SEED := 99
 const DEBUG_ACORNS := 50
 const DEBUG_BUDDIES := 8
@@ -63,7 +62,7 @@ func _ready() -> void:
 	App.new_game = false
 	forest.build(FOREST_SEED, tree_clearings)
 	var leaf_clearings: Array[Vector3] = [Vector3(TOILET_HOME.x, TOILET_HOME.y, 1.4)]
-	field.setup(save.get("leaf_seed", LEAF_SEED), leaf_clearings)
+	field.setup(save.get("leaf_seed", randi()), leaf_clearings)
 	if not save.is_empty():
 		field.load_state(save["leaves"])
 	forest.settle_on(field)

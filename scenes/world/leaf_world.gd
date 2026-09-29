@@ -133,7 +133,8 @@ var _sim_set: RID
 var _patch_sets: Array[RID] = []
 
 @onready var forest: Forest = %Forest
-@onready var terrain_material: ShaderMaterial = ($Terrain as MeshInstance3D).material_override
+@onready var terrain: MeshInstance3D = $Terrain
+@onready var terrain_material: ShaderMaterial = terrain.material_override
 
 
 func _init() -> void:
@@ -443,7 +444,11 @@ func blast(center: Vector2, radius: float, ring: float, vanish := false) -> void
 func _process(delta: float) -> void:
 	if not _window_ready:
 		return
-	terrain_material.set_shader_parameter("grid_center", (_player_pos / 0.4).round() * 0.4)
+	var grid := (_player_pos / 0.4).round() * 0.4
+	terrain_material.set_shader_parameter("grid_center", grid)
+	# The shader places the grid around the player in world space; the cull box must follow it or the ground vanishes far from the origin.
+	# Moving the node instead breaks fog and shadows, so it stays at the origin.
+	terrain.custom_aabb = AABB(Vector3(grid.x - 400.0, -1.0, grid.y - 400.0), Vector3(800.0, 8.0, 800.0))
 	_prewarm_tiles()
 	_rot_timer -= delta
 	if not _rotting.is_empty() and _rot_timer <= 0.0:
